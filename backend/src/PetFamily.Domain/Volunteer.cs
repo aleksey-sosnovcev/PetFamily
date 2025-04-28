@@ -16,7 +16,7 @@ namespace PetFamily.Domain
         {
 
         }
-
+        private readonly List<SocialNetwork> socialNetworks = [];
         private readonly List<Pet> _pets = [];
 
         public VolunteerId Id { get; private set; }
@@ -24,7 +24,7 @@ namespace PetFamily.Domain
         public Email Email { get; private set; } = default!;
         public Description Description { get; private set; } = default!;
         public PhoneNumber PhoneNumber { get; private set; } = default!;
-        public List<SocialNetwork> socialNetworks { get; private set; } = default!;
+        public IReadOnlyList<SocialNetwork> SocialNetworks => socialNetworks;
         public Details Details { get; private set; } = default!;
         public IReadOnlyList<Pet> Pets => _pets; 
 
