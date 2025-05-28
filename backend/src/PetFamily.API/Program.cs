@@ -1,3 +1,5 @@
+using PetFamily.Infrastructure;
+
 namespace PetFamily.API
 {
     public class Program
@@ -9,6 +11,7 @@ namespace PetFamily.API
             // Add services to the container.
             builder.Services.AddAuthorization();
 
+            builder.Services.AddScoped<ApplicationDbContext>();
 
             var app = builder.Build();
 
