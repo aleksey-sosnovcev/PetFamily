@@ -1,6 +1,8 @@
+
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace PetFamily.Domain.Species
 {
+
     public class Species : Shared.Entity<SpeciesId>
     {
         //EF Core
@@ -24,10 +27,12 @@ namespace PetFamily.Domain.Species
         {
             Name = name;
         }
+
         public void AddBreed(Breed breed)
         {
             _breeds.Add(breed);
         }
+
 
         public static Result<Species> Create(SpeciesId speciesId, string name)
         {
@@ -36,6 +41,7 @@ namespace PetFamily.Domain.Species
 
             return Result.Success<Species>(new Species(speciesId, name));
         }
+
 
     }
 }

@@ -25,6 +25,7 @@ namespace PetFamily.Domain.Species
                 return Result.Failure<Breed>("Breed name cannot be empty");
 
             return Result.Success<Breed>(new Breed(breedId, name));
+
         }
     }
 }
