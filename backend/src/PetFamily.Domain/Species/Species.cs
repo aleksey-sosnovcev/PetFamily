@@ -36,5 +36,6 @@ namespace PetFamily.Domain.Species
 
             return Result.Success<Species>(new Species(speciesId, name));
         }
+
     }
 }

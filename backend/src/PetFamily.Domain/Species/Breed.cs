@@ -14,7 +14,6 @@ namespace PetFamily.Domain.Species
         {
             
         }
-
         public string Name { get; private set; }
         private Breed(BreedId breedId, string name) : base(breedId) 
         {
