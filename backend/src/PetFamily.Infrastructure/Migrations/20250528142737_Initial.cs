@@ -1,0 +1,130 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace PetFamily.Infrastructure.Migrations
+{
+    /// <inheritdoc />
+    public partial class Initial : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "species",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_species", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "volunteers",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    details_description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    firstname = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    patronymic = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    surname = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    phone_number = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
+                    social_networks = table.Column<string>(type: "jsonb", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_volunteers", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "breed",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    species_id = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_breed", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_breed_species_species_id",
+                        column: x => x.species_id,
+                        principalTable: "species",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "pets",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    species = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    breed = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    color = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    weight = table.Column<float>(type: "real", nullable: false),
+                    growth = table.Column<float>(type: "real", nullable: false),
+                    castration = table.Column<bool>(type: "boolean", nullable: false),
+                    birth_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    vaccination = table.Column<bool>(type: "boolean", nullable: false),
+                    status = table.Column<int>(type: "integer", nullable: false),
+                    create_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    apartment = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    city = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    house_number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    postal_code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    street = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    details_description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    info_health = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    phone_number = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
+                    breed_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    sptcies_id = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_pets", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_pets_volunteers_volunteer_id",
+                        column: x => x.volunteer_id,
+                        principalTable: "volunteers",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_breed_species_id",
+                table: "breed",
+                column: "species_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_pets_volunteer_id",
+                table: "pets",
+                column: "volunteer_id");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "breed");
+
+            migrationBuilder.DropTable(
+                name: "pets");
+
+            migrationBuilder.DropTable(
+                name: "species");
+
+            migrationBuilder.DropTable(
+                name: "volunteers");
+        }
+    }
+}
