@@ -1,5 +1,4 @@
-<<<<<<< Updated upstream
-=======
+
 using PetFamily.Application.Volunteers.CreateVolunteer;
 using PetFamily.Application.Volunteers;
 using PetFamily.Application;
@@ -7,7 +6,7 @@ using PetFamily.Infrastructure.Repositories;
 using PetFamily.Infrastructure;
 
 
->>>>>>> Stashed changes
+
 namespace PetFamily.API
 {
     public class Program
@@ -21,12 +20,10 @@ namespace PetFamily.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-<<<<<<< Updated upstream
-=======
             builder.Services
                 .AddInfrastructure()
                 .AddApplication();
->>>>>>> Stashed changes
+
 
             var app = builder.Build();
 

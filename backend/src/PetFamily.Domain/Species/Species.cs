@@ -1,4 +1,8 @@
-﻿using System;
+
+﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
+using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +10,22 @@ using System.Threading.Tasks;
 
 namespace PetFamily.Domain.Species
 {
-    internal class Species
+
+    public class Species : Shared.Entity<SpeciesId>
     {
+        //EF Core
+        private Species(SpeciesId id) : base(id)
+        {
+
+        }
+
         private readonly List<Breed> _breeds = [];
-<<<<<<< Updated upstream
+
         public Guid Id { get; }
         public string Name { get; }
         public IReadOnlyList<Breed> Breeds => _breeds;
 
-=======
+
         public string Name { get; private set; } = default!;
         public IReadOnlyList<Breed> Breeds => _breeds;
 
@@ -22,13 +33,13 @@ namespace PetFamily.Domain.Species
         {
             Name = name;
         }
->>>>>>> Stashed changes
+
+
         public void AddBreed(Breed breed)
         {
             _breeds.Add(breed);
         }
-<<<<<<< Updated upstream
-=======
+
 
         public static Result<Species, Error> Create(SpeciesId speciesId, string name)
         {
@@ -40,6 +51,7 @@ namespace PetFamily.Domain.Species
             return species;
         }
 
->>>>>>> Stashed changes
+
+
     }
 }

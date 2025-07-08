@@ -4,27 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using PetFamily.Domain.IdVO;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Species
 {
-    internal class Breed
+    public class Breed : Shared.Entity<BreedId>
     {
-<<<<<<< Updated upstream
+
         
         public BreedId Id { get; }
         public string Name { get; }
         private Breed(string name) 
+
         {
             Name = name;
         }
-        public static Result<Breed> Create(string name)
+        public static Result<Breed> Create(BreedId breedId, string name)
         {
             if (string.IsNullOrEmpty(name))
-                return Result.Failure<Breed>("Name cannot be empty");
+                return Result.Failure<Breed>("Breed name cannot be empty");
+
+            return Result.Success<Breed>(new Breed(breedId, name));
+
 
             return Result.Success<Breed>(new Breed(name));
-=======
+
         private Breed(BreedId id) : base(id)
         {
             
@@ -42,7 +46,8 @@ namespace PetFamily.Domain.Species
             var breed = new Breed(breedId, name);
 
             return breed;
->>>>>>> Stashed changes
+
+
         }
     }
 }

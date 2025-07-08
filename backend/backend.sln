@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.API", "src\PetFamily.API\PetFamily.API.csproj", "{60F4C27A-B4D6-4C23-AC52-7AC805B19831}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetFamily.API", "src\PetFamily.API\PetFamily.API.csproj", "{60F4C27A-B4D6-4C23-AC52-7AC805B19831}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Infrastructure", "src\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj", "{553059E7-5B4E-4913-A998-571BEB34FE28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetFamily.Infrastructure", "src\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj", "{553059E7-5B4E-4913-A998-571BEB34FE28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Domain", "src\PetFamily.Domain\PetFamily.Domain.csproj", "{83349EAF-09FC-4B9A-813D-C72E5C8050E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetFamily.Domain", "src\PetFamily.Domain\PetFamily.Domain.csproj", "{83349EAF-09FC-4B9A-813D-C72E5C8050E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetFamily.Application", "src\PetFamily.Application\PetFamily.Application.csproj", "{43D96909-A8C6-4777-88AC-870E7E7B9747}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetFamily.Application", "src\PetFamily.Application\PetFamily.Application.csproj", "{43D96909-A8C6-4777-88AC-870E7E7B9747}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9073B503-E3DC-4604-9A86-E32402E2E522}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{43D96909-A8C6-4777-88AC-870E7E7B9747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43D96909-A8C6-4777-88AC-870E7E7B9747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43D96909-A8C6-4777-88AC-870E7E7B9747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9073B503-E3DC-4604-9A86-E32402E2E522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9073B503-E3DC-4604-9A86-E32402E2E522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9073B503-E3DC-4604-9A86-E32402E2E522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9073B503-E3DC-4604-9A86-E32402E2E522}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

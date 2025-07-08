@@ -2,7 +2,9 @@
   "dependencies": {
     "postgresql1": {
       "type": "postgresql",
+
       "connectionId": "Database",
+
       "dynamicId": null
     }
   }
