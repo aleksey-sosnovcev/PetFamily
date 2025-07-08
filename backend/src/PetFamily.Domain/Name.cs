@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain
 {
@@ -12,14 +13,16 @@ namespace PetFamily.Domain
             Value = value;
         }
 
-        public static Result<Name> Create(string value)
+        public static Result<Name, Error> Create(string value)
         {
-            if (string.IsNullOrWhiteSpace(value) || value.Length < MAX_LENGTH)
+            if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH)
             {
-                return Result.Failure<Name>("Name cannot be empty");
+                return Errors.General.ValueIsInvalid("Name");
             }
 
-            return new Name(value);
+            var name = new Name(value);
+
+            return name;
         }
     }
 }

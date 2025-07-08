@@ -12,14 +12,20 @@ namespace PetFamily.Domain
             Value = value;
         }
 
-        public static Result<Description> Create(string value)
+        public static Result<Description, Error> Create(string value)
         {
+<<<<<<< Updated upstream:backend/src/PetFamily.Domain/Description.cs
             if (string.IsNullOrWhiteSpace(value) || value.Length < MAX_LENGTH)
+=======
+            if (string.IsNullOrWhiteSpace(value) || value.Length > Constants.MAX_DESCRIPTION_LENGTH)
+>>>>>>> Stashed changes:backend/src/PetFamily.Domain/ValueObjects/Description.cs
             {
-                return Result.Failure<Description>("Description is invalid");
+                return Errors.General.ValueIsInvalid("Description");
             }
 
-            return new Description(value);
+            var description = new Description(value);
+
+            return description;
         }
     }
 }

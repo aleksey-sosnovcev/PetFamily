@@ -1,7 +1,15 @@
 ﻿using CSharpFunctionalExtensions;
+<<<<<<< Updated upstream:backend/src/PetFamily.Domain/SpeciasAndBreed.cs
 using PetFamily.Domain.IdVO;
 
 namespace PetFamily.Domain
+=======
+using PetFamily.Domain.Shared;
+using PetFamily.Domain.Species;
+
+
+namespace PetFamily.Domain.ValueObjects
+>>>>>>> Stashed changes:backend/src/PetFamily.Domain/ValueObjects/SpeciasAndBreed.cs
 {
     public record SpeciasAndBreed
     {
@@ -14,18 +22,20 @@ namespace PetFamily.Domain
             BreedId = breedId;
         }
 
-        public static Result<SpeciasAndBreed> Create(SpeciesId speciesId, BreedId breedId)
+        public static Result<SpeciasAndBreed, Error> Create(SpeciesId speciesId, BreedId breedId)
         {
             if (speciesId == null)
             {
-                return Result.Failure<SpeciasAndBreed>("speciesId is invalid");
+                return Errors.General.ValueIsInvalid("SpeciesId");
             }
             if(breedId == null)
             {
-                return Result.Failure<SpeciasAndBreed>("breedId is invalid");
+                return Errors.General.ValueIsInvalid("BreedId");
             }
 
-            return new SpeciasAndBreed(speciesId, breedId);
+            var speciasAndBreed = new SpeciasAndBreed(speciesId, breedId);
+
+            return speciasAndBreed;
         }
     }
 }

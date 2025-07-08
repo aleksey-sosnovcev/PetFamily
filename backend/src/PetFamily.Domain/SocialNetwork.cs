@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain
 {
@@ -13,18 +14,24 @@ namespace PetFamily.Domain
             Name = name;
         }
 
+<<<<<<< Updated upstream:backend/src/PetFamily.Domain/SocialNetwork.cs
         public static Result<SocialNetwork> Create(string link,string name)
+=======
+        public static Result<SocialNetwork, Error> Create(string link, string name)
+>>>>>>> Stashed changes:backend/src/PetFamily.Domain/ValueObjects/SocialNetwork.cs
         {
             if(string.IsNullOrWhiteSpace(link))
             {
-                return Result.Failure<SocialNetwork>("Link cannot be empty");
+                return Errors.General.ValueIsInvalid("Link");
             }
             if(string.IsNullOrWhiteSpace(name))
             {
-                return Result.Failure<SocialNetwork>("Name cannot be empty");
+                return Errors.General.ValueIsInvalid("Name");
             }
 
-            return new SocialNetwork(link, name);
+            var socialNetwork = new SocialNetwork(link, name);
+
+            return socialNetwork;
         }
     }
 }

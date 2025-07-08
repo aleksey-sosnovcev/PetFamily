@@ -15,8 +15,13 @@ namespace PetFamily.Domain.IdVO
 
         public Guid Value { get; }
 
+<<<<<<< Updated upstream:backend/src/PetFamily.Domain/IdVO/BreedId.cs
         public static BreedId NewPetId => new(Guid.NewGuid());
         public static BreedId Empty => new(Guid.Empty);
+=======
+        public static BreedId NewBreedId() => new(Guid.NewGuid());
+        public static BreedId Empty() => new(Guid.Empty);
+>>>>>>> Stashed changes:backend/src/PetFamily.Domain/Species/BreedId.cs
         public static BreedId Create(Guid id) => new(id);
     }
 }

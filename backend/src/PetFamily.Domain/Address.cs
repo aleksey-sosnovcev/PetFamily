@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain
 {
@@ -24,7 +25,7 @@ namespace PetFamily.Domain
             PostalCode = postalCode;
         }
 
-        public static Result<Address> Create(
+        public static Result<Address, Error> Create(
             string city,
             string street,
             string houseNumber,
@@ -33,22 +34,24 @@ namespace PetFamily.Domain
         {
             if (string.IsNullOrWhiteSpace(city))
             {
-                return Result.Failure<Address>("City cannot be empty");
+                return Errors.General.ValueIsInvalid("City");
             }
             if (string.IsNullOrWhiteSpace(street))
             {
-                return Result.Failure<Address>("Street cannot be empty");
+                return Errors.General.ValueIsInvalid("Street");
             }
             if (string.IsNullOrWhiteSpace(houseNumber))
             {
-                return Result.Failure<Address>("House number cannot be empty");
+                return Errors.General.ValueIsInvalid("House number");
             }
             if (string.IsNullOrWhiteSpace(postalCode))
             {
-                return Result.Failure<Address>("Postal code cannot be empty");
+                return Errors.General.ValueIsInvalid("Postal code");
             }
 
-            return new Address(city, street, houseNumber, apartment, postalCode);
+            var address = new Address(city, street, houseNumber, apartment, postalCode);
+
+            return address;
         }
 
     }
