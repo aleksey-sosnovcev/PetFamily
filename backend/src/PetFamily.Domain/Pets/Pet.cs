@@ -53,7 +53,7 @@ namespace PetFamily.Domain.Pets
             bool vaccination,
             StatusType status,
             Details details,
-            DateOnly createDate) : base(petId)
+            DateOnly createDateTest) : base(petId)
         {
             Name = name;
             Species = species;
@@ -70,7 +70,7 @@ namespace PetFamily.Domain.Pets
             Vaccination = vaccination;
             Status = status;
             Details = details;
-            CreateDate = createDate;
+            CreateDate = createDateTest;
         }
     }
 }
