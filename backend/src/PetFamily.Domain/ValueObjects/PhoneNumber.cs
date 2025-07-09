@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.ValueObjects
 {
@@ -12,14 +13,16 @@ namespace PetFamily.Domain.ValueObjects
             Value = value;
         }
 
-        public static Result<PhoneNumber> Create(string value)
+        public static Result<PhoneNumber, Error> Create(string value)
         {
-            if (string.IsNullOrWhiteSpace(value) || value.Length < MAX_LENGTH)
+            if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH)
             {
-                return Result.Failure<PhoneNumber>("PhoneNumber is invalid");
+                return Errors.General.ValueIsInvalid("Phone number");
             }
 
-            return new PhoneNumber(value);
+            var phoneNumber = new PhoneNumber(value);
+
+            return phoneNumber;
         }
     }
 }

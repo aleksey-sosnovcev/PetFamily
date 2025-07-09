@@ -20,12 +20,6 @@ namespace PetFamily.Domain.Species
         }
 
         private readonly List<Breed> _breeds = [];
-
-        public Guid Id { get; }
-        public string Name { get; }
-        public IReadOnlyList<Breed> Breeds => _breeds;
-
-
         public string Name { get; private set; } = default!;
         public IReadOnlyList<Breed> Breeds => _breeds;
 
@@ -34,12 +28,10 @@ namespace PetFamily.Domain.Species
             Name = name;
         }
 
-
         public void AddBreed(Breed breed)
         {
             _breeds.Add(breed);
         }
-
 
         public static Result<Species, Error> Create(SpeciesId speciesId, string name)
         {
@@ -50,8 +42,5 @@ namespace PetFamily.Domain.Species
 
             return species;
         }
-
-
-
     }
 }

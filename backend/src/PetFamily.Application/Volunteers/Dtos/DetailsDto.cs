@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace PetFamily.Application.Volunteers.Dtos
 {
-    public record DetailsDto(string Name, string description);
+    public record DetailsDto(string Name, string Description);
 }

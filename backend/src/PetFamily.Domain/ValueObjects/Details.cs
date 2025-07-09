@@ -1,7 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-
 using PetFamily.Domain.Shared;
-
 
 namespace PetFamily.Domain.ValueObjects
 {
@@ -15,7 +13,6 @@ namespace PetFamily.Domain.ValueObjects
             Name = name;
             Description = description;
         }
-
 
         public static Result<Details, Error> Create(string name, string description)
         {
@@ -31,7 +28,6 @@ namespace PetFamily.Domain.ValueObjects
             var details = new Details(name, description);
 
             return details;
-
         }
     }
 }

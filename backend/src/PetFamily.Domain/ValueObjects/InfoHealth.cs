@@ -1,7 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-
 using PetFamily.Domain.Shared;
-
 
 namespace PetFamily.Domain.ValueObjects
 {
@@ -14,7 +12,6 @@ namespace PetFamily.Domain.ValueObjects
             Value = value;
         }
 
-
         public static Result<InfoHealth, Error> Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -25,8 +22,6 @@ namespace PetFamily.Domain.ValueObjects
             var infoHealth = new InfoHealth(value);
 
             return infoHealth;
-
-
         }
     }
 }

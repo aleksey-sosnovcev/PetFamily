@@ -1,5 +1,4 @@
-﻿using PetFamily.Domain.Volunteer;
-using PetFamily.Domain.Shared;
+﻿using PetFamily.Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PetFamily.Application.Volunteers;
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.ValueObjects;
+using PetFamily.Domain.Volunteers;
 
 namespace PetFamily.Infrastructure.Repositories
 {

@@ -10,25 +10,6 @@ namespace PetFamily.Domain.Species
 {
     public class Breed : Shared.Entity<BreedId>
     {
-
-        
-        public BreedId Id { get; }
-        public string Name { get; }
-        private Breed(string name) 
-
-        {
-            Name = name;
-        }
-        public static Result<Breed> Create(BreedId breedId, string name)
-        {
-            if (string.IsNullOrEmpty(name))
-                return Result.Failure<Breed>("Breed name cannot be empty");
-
-            return Result.Success<Breed>(new Breed(breedId, name));
-
-
-            return Result.Success<Breed>(new Breed(name));
-
         private Breed(BreedId id) : base(id)
         {
             
@@ -46,8 +27,6 @@ namespace PetFamily.Domain.Species
             var breed = new Breed(breedId, name);
 
             return breed;
-
-
         }
     }
 }

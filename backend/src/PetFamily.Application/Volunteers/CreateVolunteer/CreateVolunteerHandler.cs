@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects;
-using PetFamily.Domain.Volunteer;
+using PetFamily.Domain.Volunteers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
             if (phoneNumberResult.IsFailure)
                 return phoneNumberResult.Error;
 
-            var detailsResult = Details.Create(request.Details.Name, request.Details.description);
+            var detailsResult = Details.Create(request.Details.Name, request.Details.Description);
             if (detailsResult.IsFailure)
                 return detailsResult.Error;
 
@@ -67,7 +67,7 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
 
             await _volunteerRepository.Add(volunteerResult.Value, cancellationToken);
 
-            return (Guid)volunteerId;
+            return volunteerId.Value;
         }
     }
 }
