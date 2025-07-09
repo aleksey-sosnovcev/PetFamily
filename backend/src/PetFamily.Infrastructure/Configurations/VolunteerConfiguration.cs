@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects;
-using PetFamily.Domain.Volunteer;
+using PetFamily.Domain.Volunteers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

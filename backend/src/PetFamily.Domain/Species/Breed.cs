@@ -14,18 +14,19 @@ namespace PetFamily.Domain.Species
         {
             
         }
-        public string Name { get; private set; }
-        private Breed(BreedId breedId, string name) : base(breedId) 
+        public string Name { get; private set; } = default!;
+        public Breed(BreedId breedId, string name) : base(breedId) 
         {
             Name = name;
         }
-        public static Result<Breed> Create(BreedId breedId, string name)
+        public static Result<Breed, Error> Create(BreedId breedId, string name)
         {
             if (string.IsNullOrEmpty(name))
-                return Result.Failure<Breed>("Breed name cannot be empty");
+                return Errors.General.ValueIsInvalid("Name");
 
-            return Result.Success<Breed>(new Breed(breedId, name));
+            var breed = new Breed(breedId, name);
 
+            return breed;
         }
     }
 }

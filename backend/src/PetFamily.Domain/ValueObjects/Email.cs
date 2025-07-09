@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.ValueObjects
 {
@@ -14,14 +15,16 @@ namespace PetFamily.Domain.ValueObjects
             Value = value;
         }
 
-        public static Result<Email> Create(string value)
+        public static Result<Email, Error> Create(string value)
         {
             if (!Regex.IsMatch(value, emailPattern, RegexOptions.IgnoreCase))
             {
-                return Result.Failure<Email>("EmailAddress does not match the form");
+                return Errors.General.ValueIsInvalid("Email");
             }
 
-            return new Email(value);
+            var email = new Email(value);
+
+            return email;
         }
 
     }

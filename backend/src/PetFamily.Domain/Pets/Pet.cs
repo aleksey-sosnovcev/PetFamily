@@ -37,7 +37,7 @@ namespace PetFamily.Domain.Pets
         public DateOnly CreateDate { get; private set; }
 
         public Pet(
-            PetId petId,
+            PetId petid,
             Name name,
             string species,
             Description description,
@@ -53,7 +53,7 @@ namespace PetFamily.Domain.Pets
             bool vaccination,
             StatusType status,
             Details details,
-            DateOnly createDateTest) : base(petId)
+            DateOnly createDate) : base(petid)
         {
             Name = name;
             Species = species;
@@ -70,7 +70,75 @@ namespace PetFamily.Domain.Pets
             Vaccination = vaccination;
             Status = status;
             Details = details;
-            CreateDate = createDateTest;
+            CreateDate = createDate;
+        }
+
+        public static Result<Pet, Error> Create(PetId petId,
+            Name name,
+            string species,
+            Description description,
+            string breed,
+            string color,
+            InfoHealth infoHealth,
+            Address address,
+            float weight,
+            float growth,
+            PhoneNumber phoneNumber,
+            bool castration,
+            DateOnly birthDate,
+            bool vaccination,
+            StatusType status,
+            Details details,
+            DateOnly createDate)
+        {
+
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+
+            if (string.IsNullOrWhiteSpace(species))
+            {
+                return Errors.General.ValueIsInvalid("Species");
+            }
+            if (string.IsNullOrWhiteSpace(breed))
+            {
+                return Errors.General.ValueIsInvalid("Breed");
+            }
+            if (string.IsNullOrWhiteSpace(color))
+            {
+                return Errors.General.ValueIsInvalid("Color");
+            }
+            if (weight <= 0)
+            {
+                return Errors.General.ValueIsInvalid("Weight");
+            }
+            if (growth <= 0)
+            {
+                return Errors.General.ValueIsInvalid("Growth");
+            }
+            if (birthDate > today.AddYears(-50))
+            {
+                return Errors.General.ValueIsInvalid("BirthDate");
+            }
+
+            var pet = new Pet(
+                petId,
+                name,
+                species,
+                description,
+                breed,
+                color,
+                infoHealth,
+                address,
+                weight,
+                growth,
+                phoneNumber,
+                castration,
+                birthDate,
+                vaccination,
+                status,
+                details,
+                createDate);
+
+            return pet;
         }
     }
 }
