@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.ValueObjects
 {
@@ -11,13 +12,16 @@ namespace PetFamily.Domain.ValueObjects
             VValue = value;
         }
 
-        public static Result<InfoHealth> Create(string value)
+        public static Result<InfoHealth, Error> Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                return Result.Failure<InfoHealth>("InfoHealth cannot be empty");
+                return Errors.General.ValueIsInvalid("InfoHealth");
             }
-            return new InfoHealth(value);
+
+            var infoHealth = new InfoHealth(value);
+
+            return infoHealth;
         }
     }
 }

@@ -20,10 +20,10 @@ namespace PetFamily.Domain.Species
         }
 
         private readonly List<Breed> _breeds = [];
-        public string Name { get; }
+        public string Name { get; private set; } = default!;
         public IReadOnlyList<Breed> Breeds => _breeds;
 
-        private Species(SpeciesId speciesId, string name) : base(speciesId)
+        public Species(SpeciesId speciesId, string name) : base(speciesId)
         {
             Name = name;
         }
@@ -33,15 +33,14 @@ namespace PetFamily.Domain.Species
             _breeds.Add(breed);
         }
 
-
-        public static Result<Species> Create(SpeciesId speciesId, string name)
+        public static Result<Species, Error> Create(SpeciesId speciesId, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return Result.Failure<Species>("Species name cannot be empty");
+                return Errors.General.ValueIsInvalid("Name");
 
-            return Result.Success<Species>(new Species(speciesId, name));
+            var species = new Species(speciesId, name);
+
+            return species;
         }
-
-
     }
 }

@@ -3,10 +3,12 @@
     "postgresql1": {
       "containerPorts": "5434:5432",
       "secretStore": "LocalSecretsFile",
-      "containerName": "postgres",
-      "containerImage": "postgres:17",
+
+      "containerName": "postgresdb",
+      "containerImage": "postgres",
       "type": "postgresql.container",
-      "connectionId": "DATABASE",
+      "connectionId": "Database",
+
       "dynamicId": null
     }
   }
