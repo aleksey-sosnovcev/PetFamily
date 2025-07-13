@@ -5,11 +5,11 @@ namespace PetFamily.Domain.ValueObjects
 {
     public record InfoHealth
     {
-        public string VValue { get; }
+        public string Value { get; }
 
         private InfoHealth(string value)
         {
-            VValue = value;
+            Value = value;
         }
 
         public static Result<InfoHealth, Error> Create(string value)

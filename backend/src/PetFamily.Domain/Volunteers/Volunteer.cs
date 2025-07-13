@@ -38,7 +38,8 @@ namespace PetFamily.Domain.Volunteers
             Email email,
             Description description,
             PhoneNumber phoneNumber,
-            Details details
+            Details details,
+            SocialNetworkDetails socialNetworkDetails
             ) : base(volunteerId)
         {
             FullName = fullName;
@@ -46,6 +47,7 @@ namespace PetFamily.Domain.Volunteers
             Description = description;
             PhoneNumber = phoneNumber;
             Details = details;
+            SocialNetworkDetails = socialNetworkDetails;
         }
 
         public int CountPetNeedHelp()
@@ -66,9 +68,12 @@ namespace PetFamily.Domain.Volunteers
             Email email,
             Description description,
             PhoneNumber phoneNumber,
-            Details details)
+            Details details,
+            List<SocialNetwork> socialNetwork)
         {
-            var volunteer = new Volunteer(volunteerId, fullName, email, description, phoneNumber, details);
+            var socialNetworkDetails = new SocialNetworkDetails(socialNetwork);
+
+            var volunteer = new Volunteer(volunteerId, fullName, email, description, phoneNumber, details, socialNetworkDetails);
 
             return volunteer;
         }

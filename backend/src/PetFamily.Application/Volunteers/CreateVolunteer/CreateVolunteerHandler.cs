@@ -42,13 +42,16 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
             if (detailsResult.IsFailure)
                 return detailsResult.Error;
 
-            var socialNetworkResult = request.SocialNetworks
-                .Select(s => SocialNetwork.Create(s.Link, s.Name))
-                .ToList();
-            foreach (var s in socialNetworkResult)
+            var socialNetworks = new List<SocialNetwork>(request.SocialNetworks.Count());
+
+            foreach (var s in request.SocialNetworks)
             {
-                if (s.IsFailure)
-                    return s.Error;
+                var socialRes = SocialNetwork.Create(s.Link, s.Name);
+
+                if (socialRes.IsFailure)
+                    return socialRes.Error;
+
+                socialNetworks.Add(socialRes.Value); 
             }
 
 
@@ -63,7 +66,8 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
                 emailResult.Value,
                 descriptionResut.Value,
                 phoneNumberResult.Value,
-                detailsResult.Value);
+                detailsResult.Value,
+                socialNetworks);
 
             await _volunteerRepository.Add(volunteerResult.Value, cancellationToken);
 
