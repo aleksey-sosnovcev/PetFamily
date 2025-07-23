@@ -1,9 +1,10 @@
-
 using PetFamily.Application.Volunteers.CreateVolunteer;
 using PetFamily.Application.Volunteers;
 using PetFamily.Application;
 using PetFamily.Infrastructure.Repositories;
 using PetFamily.Infrastructure;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using PetFamily.API.Validation;
 
 
 
@@ -24,6 +25,10 @@ namespace PetFamily.API
                 .AddInfrastructure()
                 .AddApplication();
 
+            builder.Services.AddFluentValidationAutoValidation(configuration =>
+            {
+                configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
+            });
 
             var app = builder.Build();
 

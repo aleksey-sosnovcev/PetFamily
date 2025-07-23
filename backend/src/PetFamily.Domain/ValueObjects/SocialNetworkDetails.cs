@@ -2,13 +2,11 @@
 {
     public record SocialNetworkDetails
     {
-        private readonly List<SocialNetwork> _socialNetworks = [];
-
-        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+        public IReadOnlyList<SocialNetwork> SocialNetworks { get; } = [];
 
         public SocialNetworkDetails(List<SocialNetwork> socialNetworks)
         {
-            _socialNetworks = socialNetworks;
+            SocialNetworks = socialNetworks;
         }
 
         private SocialNetworkDetails()

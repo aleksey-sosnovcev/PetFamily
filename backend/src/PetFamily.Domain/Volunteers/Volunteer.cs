@@ -21,7 +21,7 @@ namespace PetFamily.Domain.Volunteers
         {
 
         }
-        private readonly List<SocialNetwork> socialNetworks = [];
+
         private readonly List<Pet> _pets = [];
 
         public FullName FullName { get; private set; } = default!;

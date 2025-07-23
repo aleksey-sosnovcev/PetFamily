@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PetFamily.Application.Volunteers.Dtos
 {
     public record FullNameDto(
-       string surName,
-       string firstName,
-       string patronymic);
+       string Surname,
+       string FirstName,
+       string Patronymic);
 }
