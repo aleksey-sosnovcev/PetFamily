@@ -24,7 +24,10 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
         {
             var volunteerId = VolunteerId.NewVolunteerId();
 
-            var fullNameResult = FullName.Create(request.FullName.Surname, request.FullName.FirstName, request.FullName.Patronymic).Value;
+            var fullNameResult = FullName.Create(
+                request.FullName.Surname,
+                request.FullName.FirstName, 
+                request.FullName.Patronymic).Value;
 
             var emailResult = Email.Create(request.Email).Value;
 
@@ -37,8 +40,8 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
             var socialNetworks = new List<SocialNetwork>(request.SocialNetworks.Count());
 
             socialNetworks.AddRange(from s in request.SocialNetworks
-                                    let socialRes = SocialNetwork.Create(s.Link, s.Name)
-                                    select socialRes.Value);
+                                    let socialResult = SocialNetwork.Create(s.Link, s.Name)
+                                    select socialResult.Value);
 
             var volunteer = await _volunteerRepository.GetByEmail(emailResult);
             if (volunteer.IsSuccess)

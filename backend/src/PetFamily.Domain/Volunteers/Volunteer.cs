@@ -22,13 +22,14 @@ namespace PetFamily.Domain.Volunteers
 
         }
 
+        private readonly List<SocialNetwork> _socialNetworks = [];
         private readonly List<Pet> _pets = [];
 
         public FullName FullName { get; private set; } = default!;
         public Email Email { get; private set; } = default!;
         public Description Description { get; private set; } = default!;
         public PhoneNumber PhoneNumber { get; private set; } = default!;
-        public SocialNetworkDetails? SocialNetworkDetails { get; private set; } = default!;
+        public IReadOnlyList<SocialNetwork>? SocialNetworks => _socialNetworks;
         public Details Details { get; private set; } = default!;
         public IReadOnlyList<Pet> Pets => _pets;
 
@@ -39,7 +40,7 @@ namespace PetFamily.Domain.Volunteers
             Description description,
             PhoneNumber phoneNumber,
             Details details,
-            SocialNetworkDetails socialNetworkDetails
+            List<SocialNetwork> socialNetworks
             ) : base(volunteerId)
         {
             FullName = fullName;
@@ -47,20 +48,20 @@ namespace PetFamily.Domain.Volunteers
             Description = description;
             PhoneNumber = phoneNumber;
             Details = details;
-            SocialNetworkDetails = socialNetworkDetails;
+            _socialNetworks = socialNetworks;
         }
 
         public int CountPetNeedHelp()
         {
-            return Pets.Where(p => p.Status == StatusType.NeedHelp).Count();
+            return _pets.Where(p => p.Status == StatusType.NeedHelp).Count();
         }
         public int CountPetNeedHome()
         {
-            return Pets.Where(p => p.Status == StatusType.NeedHome).Count();
+            return _pets.Where(p => p.Status == StatusType.NeedHome).Count();
         }
         public int CountPetFoundHome()
         {
-            return Pets.Where(p => p.Status == StatusType.NeedHelp).Count();
+            return _pets.Where(p => p.Status == StatusType.NeedHelp).Count();
         }
 
         public static Result<Volunteer, Error> Create(VolunteerId volunteerId,
@@ -69,11 +70,9 @@ namespace PetFamily.Domain.Volunteers
             Description description,
             PhoneNumber phoneNumber,
             Details details,
-            List<SocialNetwork> socialNetwork)
+            List<SocialNetwork> socialNetworks)
         {
-            var socialNetworkDetails = new SocialNetworkDetails(socialNetwork);
-
-            var volunteer = new Volunteer(volunteerId, fullName, email, description, phoneNumber, details, socialNetworkDetails);
+            var volunteer = new Volunteer(volunteerId, fullName, email, description, phoneNumber, details, socialNetworks);
 
             return volunteer;
         }

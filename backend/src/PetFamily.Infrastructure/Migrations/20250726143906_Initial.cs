@@ -15,19 +15,19 @@ namespace PetFamily.Infrastructure.Migrations
                 name: "species",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_species", x => x.id);
+                    table.PrimaryKey("PK_species", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "volunteers",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     details_description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
@@ -40,32 +40,32 @@ namespace PetFamily.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_volunteers", x => x.id);
+                    table.PrimaryKey("PK_volunteers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "breed",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_breed", x => x.id);
+                    table.PrimaryKey("PK_breed", x => x.Id);
                     table.ForeignKey(
-                        name: "fk_breed_species_species_id",
+                        name: "FK_breed_species_species_id",
                         column: x => x.species_id,
                         principalTable: "species",
-                        principalColumn: "id");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "pets",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     species = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     breed = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     color = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
@@ -92,21 +92,22 @@ namespace PetFamily.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_pets", x => x.id);
+                    table.PrimaryKey("PK_pets", x => x.Id);
                     table.ForeignKey(
-                        name: "fk_pets_volunteers_volunteer_id",
+                        name: "FK_pets_volunteers_volunteer_id",
                         column: x => x.volunteer_id,
                         principalTable: "volunteers",
-                        principalColumn: "id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_breed_species_id",
+                name: "IX_breed_species_id",
                 table: "breed",
                 column: "species_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_pets_volunteer_id",
+                name: "IX_pets_volunteer_id",
                 table: "pets",
                 column: "volunteer_id");
         }

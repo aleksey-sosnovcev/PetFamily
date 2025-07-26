@@ -68,21 +68,18 @@ namespace PetFamily.Infrastructure.Configurations
                 .HasColumnName("phone_number");
             });
 
-            builder.OwnsOne(v => v.SocialNetworkDetails, vb =>
+            builder.OwnsMany(v => v.SocialNetworks, sb =>
             {
-                vb.ToJson("social_networks");
+                sb.ToJson("social_networks");
 
-                vb.OwnsMany(snd => snd.SocialNetworks, snb =>
-                {
-                    snb.Property(sn => sn.Link)
-                    .IsRequired()
-                    .HasColumnName("social_network_link");
+                sb.Property(v => v.Link)
+                .IsRequired()
+                .HasColumnName("social_network_link");
 
-                    snb.Property(sn => sn.Name)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_NAME_LENGTH)
-                    .HasColumnName("social_network_name");
-                });
+                sb.Property(v => v.Name)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_NAME_LENGTH)
+                .HasColumnName("social_network_name");
             });
 
             builder.ComplexProperty(v => v.Details, tb =>

@@ -32,7 +32,7 @@ namespace PetFamily.API.Controllers
             if (result.IsFailure)
                 return result.Error.ToResponse();
 
-            return CreatedAtAction("", result.Value);
+            return Ok(result.Value);
         }
 
     }

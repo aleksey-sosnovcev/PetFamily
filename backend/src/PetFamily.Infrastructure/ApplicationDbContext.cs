@@ -21,7 +21,6 @@ namespace PetFamily.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
-            optionsBuilder.UseLowerCaseNamingConvention();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
             optionsBuilder.EnableSensitiveDataLogging();
         }
