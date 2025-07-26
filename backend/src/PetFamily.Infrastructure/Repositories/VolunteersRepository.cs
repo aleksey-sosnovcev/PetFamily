@@ -45,7 +45,6 @@ namespace PetFamily.Infrastructure.Repositories
         public async Task<Result<Volunteer, Error>> GetByEmail(Email email)
         {
             var volunteer = await _dbContext.Volunteers
-                .Include (v => v.Pets)
                 .FirstOrDefaultAsync(v => v.Email == email);
 
             if(volunteer is null)
