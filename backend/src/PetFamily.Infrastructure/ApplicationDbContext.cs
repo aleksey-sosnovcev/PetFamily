@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Species;
 using PetFamily.Domain.Volunteers;
+using PetFamily.Infrastructure.Interceptors;
 
 namespace PetFamily.Infrastructure
 {
@@ -23,6 +24,8 @@ namespace PetFamily.Infrastructure
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
             optionsBuilder.EnableSensitiveDataLogging();
+
+            //optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

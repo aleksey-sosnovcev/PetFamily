@@ -10,8 +10,8 @@ using PetFamily.Domain.ValueObjects;
 
 namespace PetFamily.Domain.Pets
 {
-    public class Pet : Shared.Entity<PetId>
-    {
+    public class Pet : SoftDeletableEntity<PetId>
+    {   
         //EF Core
         private Pet(PetId id) : base(id)
         {
@@ -139,6 +139,16 @@ namespace PetFamily.Domain.Pets
                 createDate);
 
             return pet;
+        }
+
+        public override void Delete()
+        {
+            base.Delete();
+        }
+
+        public override void Restore()
+        {
+            base.Restore();
         }
     }
 }
