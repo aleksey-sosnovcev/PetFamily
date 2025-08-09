@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetFamily.Application.Volunteers;
-using PetFamily.Infrastructure.Interceptors;
 using PetFamily.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
