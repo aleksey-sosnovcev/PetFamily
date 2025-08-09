@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects;
 using PetFamily.Domain.Volunteers;
@@ -9,24 +10,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetFamily.Application.Volunteers.CreateVolunteer
+namespace PetFamily.Application.Volunteers.Create
 {
     public class CreateVolunteerHandler
     {
         private readonly IVolunteerRepository _volunteerRepository;
+        private readonly ILogger<CreateVolunteerHandler> _logger;
 
-        public CreateVolunteerHandler(IVolunteerRepository volunteerRepository)
+        public CreateVolunteerHandler(
+            IVolunteerRepository volunteerRepository, 
+            ILogger<CreateVolunteerHandler> logger)
         {
             _volunteerRepository = volunteerRepository;
+            _logger = logger;
         }
-        public async Task<Result<Guid, Error>> Handel(
+        public async Task<Result<Guid, Error>> Handle(
             CreateVolunteerRequest request, CancellationToken cancellationToken = default)
         {
             var volunteerId = VolunteerId.NewVolunteerId();
 
             var fullNameResult = FullName.Create(
                 request.FullName.Surname,
-                request.FullName.FirstName, 
+                request.FullName.FirstName,
                 request.FullName.Patronymic).Value;
 
             var emailResult = Email.Create(request.Email).Value;
@@ -43,7 +48,7 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
                                     let socialResult = SocialNetwork.Create(s.Link, s.Name)
                                     select socialResult.Value);
 
-            var volunteer = await _volunteerRepository.GetByEmail(emailResult);
+            var volunteer = await _volunteerRepository.GetByEmail(emailResult, cancellationToken);
             if (volunteer.IsSuccess)
                 return Errors.Volunteer.AlreadyExist();
 
@@ -58,6 +63,8 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
                 socialNetworks);
 
             await _volunteerRepository.Add(volunteerResult.Value, cancellationToken);
+
+            _logger.LogInformation("Created volunteer with id {volunteerId}", volunteerId.Value);
 
             return volunteerId.Value;
         }

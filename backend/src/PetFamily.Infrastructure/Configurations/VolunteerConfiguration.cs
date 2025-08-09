@@ -87,7 +87,7 @@ namespace PetFamily.Infrastructure.Configurations
                 tb.Property(d => d.Name)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_NAME_LENGTH)
-                .HasColumnName("name");
+                .HasColumnName("details_name");
 
                 tb.Property(d => d.Description)
                 .IsRequired()
@@ -102,6 +102,10 @@ namespace PetFamily.Infrastructure.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Navigation(v => v.Pets).AutoInclude();
+
+            builder.Property<bool>("_isDeleted")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("is_deleted");
         }
     }
 }

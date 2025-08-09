@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PetFamily.Application.Volunteers.Dtos;
 
-namespace PetFamily.Application.Volunteers.CreateVolunteer
+namespace PetFamily.Application.Volunteers.Create
 {
     public record CreateVolunteerRequest(
        FullNameDto FullName,
