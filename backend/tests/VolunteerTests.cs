@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using FluentAssertions;
 using PetFamily.Domain.Enum;
 using PetFamily.Domain.Pets;
@@ -188,6 +189,23 @@ namespace tests
             thirdPet.Position.Value.Should().Be(2);
             fourthPet.Position.Value.Should().Be(3);
             fifthPet.Position.Value.Should().Be(4);
+        }
+
+        [Fact]
+        public void Add_Pet()
+        {
+            // Arrange
+            var volunteer = CreateVolunteerWithPet(0);
+            var pet = CreatePet();
+
+            // Act
+            var result = volunteer.AddPet(pet);
+
+            // Assert
+            result.IsSuccess.Should().BeTrue();
+
+            volunteer.Pets.Count.Should().Be(1);
+            volunteer.Pets.Should().Contain(pet);
         }
 
         // первый тест
