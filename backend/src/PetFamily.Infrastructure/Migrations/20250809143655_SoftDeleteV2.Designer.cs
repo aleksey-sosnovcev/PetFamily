@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetFamily.Infrastructure;
@@ -12,9 +13,11 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250809143655_SoftDeleteV2")]
+    partial class SoftDeleteV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,15 +186,6 @@ namespace PetFamily.Infrastructure.Migrations
                                 .HasMaxLength(12)
                                 .HasColumnType("character varying(12)")
                                 .HasColumnName("phone_number");
-                        });
-
-                    b.ComplexProperty<Dictionary<string, object>>("SerialNumber", "PetFamily.Domain.Pets.Pet.SerialNumber#SerialNumber", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<int>("Value")
-                                .HasColumnType("integer")
-                                .HasColumnName("serial_number");
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("SpeciasAndBreed", "PetFamily.Domain.Pets.Pet.SpeciasAndBreed#SpeciasAndBreed", b1 =>

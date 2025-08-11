@@ -20,7 +20,8 @@ namespace PetFamily.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Guid> Add(Volunteer volunteer, CancellationToken cancellationToken = default)
+        public async Task<Guid> Add(
+            Volunteer volunteer, CancellationToken cancellationToken = default)
         {
             await _dbContext.Volunteers.AddAsync(volunteer, cancellationToken);
 
@@ -29,11 +30,31 @@ namespace PetFamily.Infrastructure.Repositories
             return volunteer.Id; 
         }
 
-        public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId)
+        public async Task<Guid> Save(
+            Volunteer volunteer, CancellationToken cancellationToken = default)
+        {
+            _dbContext.Volunteers.Attach(volunteer);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return volunteer.Id;
+        }
+
+        public async Task<Guid> Delete(Volunteer volunteer, CancellationToken cancellationToken = default)
+        {
+            _dbContext.Volunteers.Remove(volunteer);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return volunteer.Id;
+        }
+
+        public async Task<Result<Volunteer, Error>> GetById(
+            VolunteerId volunteerId, CancellationToken cancellationToken = default)
         {
             var volunteer = await _dbContext.Volunteers
                 .Include(v => v.Pets)
-                .FirstOrDefaultAsync(v =>  v.Id == volunteerId);
+                .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
             if(volunteer is null)
             {
@@ -42,10 +63,11 @@ namespace PetFamily.Infrastructure.Repositories
 
             return volunteer;
         }
-        public async Task<Result<Volunteer, Error>> GetByEmail(Email email)
+        public async Task<Result<Volunteer, Error>> GetByEmail(
+            Email email, CancellationToken cancellationToken = default)
         {
             var volunteer = await _dbContext.Volunteers
-                .FirstOrDefaultAsync(v => v.Email == email);
+                .FirstOrDefaultAsync(v => v.Email == email, cancellationToken);
 
             if(volunteer is null)
                 return Errors.General.NotFound();

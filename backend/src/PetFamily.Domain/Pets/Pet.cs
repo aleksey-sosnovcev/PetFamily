@@ -10,8 +10,8 @@ using PetFamily.Domain.ValueObjects;
 
 namespace PetFamily.Domain.Pets
 {
-    public class Pet : Shared.Entity<PetId>
-    {
+    public class Pet : SoftDeletableEntity<PetId>
+    {   
         //EF Core
         private Pet(PetId id) : base(id)
         {
@@ -35,6 +35,7 @@ namespace PetFamily.Domain.Pets
         public StatusType Status { get; private set; }
         public Details Details { get; private set; } = default!;
         public DateOnly CreateDate { get; private set; }
+        public SerialNumber SerialNumber { get; private set; } = default!;
 
         public Pet(
             PetId petid,
@@ -139,6 +140,19 @@ namespace PetFamily.Domain.Pets
                 createDate);
 
             return pet;
+        }
+
+        public void SetSerialNumber(SerialNumber serialNumber) =>
+            SerialNumber = serialNumber;
+
+        public override void Delete()
+        {
+            base.Delete();
+        }
+
+        public override void Restore()
+        {
+            base.Restore();
         }
     }
 }

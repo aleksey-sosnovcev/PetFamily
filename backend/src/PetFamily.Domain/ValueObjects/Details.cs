@@ -16,11 +16,11 @@ namespace PetFamily.Domain.ValueObjects
 
         public static Result<Details, Error> Create(string name, string description)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name) || name.Length > Constants.MAX_NAME_LENGTH)
             {
                 return Errors.General.ValueIsInvalid("Name");
             }
-            if (string.IsNullOrWhiteSpace(description))
+            if (string.IsNullOrWhiteSpace(description) || description.Length > Constants.MAX_DESCRIPTION_LENGTH)
             {
                 return Errors.General.ValueIsInvalid("Description");
             }

@@ -11,6 +11,6 @@ namespace PetFamily.Domain.Shared
         public const int MAX_NAME_LENGTH = 50;
         public const int MAX_EMAIL_LENGTH = 100;
         public const int MAX_DESCRIPTION_LENGTH = 2000;
-        
+        public const int DELETE_EXPIRED_PETS_SERVICE_REDUCTION_HOURS = 24;
     }
 }

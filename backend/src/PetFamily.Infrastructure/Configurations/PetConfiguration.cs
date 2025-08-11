@@ -152,6 +152,17 @@ namespace PetFamily.Infrastructure.Configurations
             builder.Property(p => p.CreateDate)
                 .IsRequired()
                 .HasColumnName("create_date");
+
+            builder.Property<bool>("_isDeleted")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("is_deleted");
+
+            builder.ComplexProperty(p => p.SerialNumber, tb =>
+            {
+                tb.Property(s => s.Value)
+                .IsRequired()
+                .HasColumnName("serial_number");
+            });
         }
     }
 

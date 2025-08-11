@@ -12,17 +12,19 @@ namespace PetFamily.Domain.Shared
         public string Code { get; }
         public string Message { get; }
         public ErrorType Type { get; }
+        public string? InvalidField { get; }
 
 
-        private Error(string code, string massage, ErrorType type)
+        private Error(string code, string massage, ErrorType type, string? invalidField = null)
         {
             Code = code;
             Message = massage;
             Type = type;
+            InvalidField = invalidField;
         }
 
-        public static Error Validation(string code, string massage) =>
-            new Error(code, massage, ErrorType.Validation);
+        public static Error Validation(string code, string massage, string? invalidField = null) =>
+            new Error(code, massage, ErrorType.Validation, invalidField);
 
         public static Error NotFound(string code, string massage) =>
             new Error(code, massage, ErrorType.NotFound);
@@ -54,6 +56,7 @@ namespace PetFamily.Domain.Shared
 
             return new Error(parts[0], parts[1], type);
         }
+        public ErrorList ToErrorList() => new([this]);
 
     }
 
