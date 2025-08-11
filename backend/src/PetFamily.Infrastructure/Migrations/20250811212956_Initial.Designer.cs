@@ -13,7 +13,7 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250810195436_Initial")]
+    [Migration("20250811212956_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -188,7 +188,7 @@ namespace PetFamily.Infrastructure.Migrations
                                 .HasColumnName("phone_number");
                         });
 
-                    b.ComplexProperty<Dictionary<string, object>>("SerialNumber", "PetFamily.Domain.Pets.Pet.SerialNumber#SerialNumber", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("Position", "PetFamily.Domain.Pets.Pet.Position#Position", b1 =>
                         {
                             b1.IsRequired();
 

@@ -35,7 +35,7 @@ namespace PetFamily.Domain.Pets
         public StatusType Status { get; private set; }
         public Details Details { get; private set; } = default!;
         public DateOnly CreateDate { get; private set; }
-        public SerialNumber SerialNumber { get; private set; } = default!;
+        public Position Position { get; private set; } = default!;
 
         public Pet(
             PetId petid,
@@ -142,8 +142,33 @@ namespace PetFamily.Domain.Pets
             return pet;
         }
 
-        public void SetSerialNumber(SerialNumber serialNumber) =>
-            SerialNumber = serialNumber;
+        public void SetPosition(Position position) =>
+            Position = position;
+
+        public UnitResult<Error> MoveForward()
+        {
+            var newPosition = Position.Forward();
+            if (newPosition.IsFailure)
+                return newPosition.Error;
+
+            Position = newPosition.Value;
+
+            return Result.Success<Error>();
+        }
+
+        public UnitResult<Error> MoveBack()
+        {
+            var newPosition = Position.Back();
+            if (newPosition.IsFailure)
+                return newPosition.Error;
+
+            Position = newPosition.Value;
+
+            return Result.Success<Error>();
+        }
+
+        public void Move(Position newPosition)
+            => Position = newPosition;
 
         public override void Delete()
         {
