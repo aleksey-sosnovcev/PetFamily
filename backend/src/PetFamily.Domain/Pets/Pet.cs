@@ -35,6 +35,7 @@ namespace PetFamily.Domain.Pets
         public StatusType Status { get; private set; }
         public Details Details { get; private set; } = default!;
         public DateOnly CreateDate { get; private set; }
+        public SerialNumber SerialNumber { get; private set; } = default!;
 
         public Pet(
             PetId petid,
@@ -140,6 +141,9 @@ namespace PetFamily.Domain.Pets
 
             return pet;
         }
+
+        public void SetSerialNumber(SerialNumber serialNumber) =>
+            SerialNumber = serialNumber;
 
         public override void Delete()
         {

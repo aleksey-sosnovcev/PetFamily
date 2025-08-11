@@ -11,9 +11,14 @@ using PetFamily.Application.Volunteers.Dtos;
 using PetFamily.Application.Volunteers.Update.DetailsInfo;
 using PetFamily.Application.Volunteers.Update.MainInfo;
 using PetFamily.Application.Volunteers.Update.SocialNetworks;
+using PetFamily.API.Controllers.Requests;
 using PetFamily.Domain.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using PetFamily.Domain.ValueObjects;
+using System.Collections.Generic;
+using PetFamily.API.Controllers.Requests.Volunteers.Update;
+using PetFamily.API.Controllers.Requests.Volunteers.Create;
 
 namespace PetFamily.API.Controllers
 {
@@ -33,7 +38,18 @@ namespace PetFamily.API.Controllers
             CancellationToken cancellationToken = default)
         {
             //вызвать сервис для создания волонтера (вызов бизнес логики)
-            var result = await handler.Handle(request, cancellationToken);
+            var command = new CreateVolunteerCommand(
+                request.Surname,
+                request.FirstName,
+                request.Patronymic,
+                request.Email,
+                request.Description,
+                request.PhoneNumber,
+                request.DetailsName,
+                request.DetailsDescription,
+                request.SocialNetworks);
+
+            var result = await handler.Handle(command, cancellationToken);
             if (result.IsFailure)
                 return result.Error.ToResponse();
 
@@ -46,19 +62,18 @@ namespace PetFamily.API.Controllers
         public async Task<ActionResult> UpdateMainInfo(
             [FromRoute] Guid id,
             [FromServices] UpdateMainInfoHandler handler,
-            [FromBody] UpdateMainInfoDto dto,
-            [FromServices] IValidator<UpdateMainInfoRequest> validator,
+            [FromBody] UpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateMainInfoRequest(id, dto);
+            var command = new UpdateMainInfoCommand(
+                id,
+                request.Surname,
+                request.FirstName,
+                request.Patronymic,
+                request.Description,
+                request.PhoneNumber);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -72,19 +87,15 @@ namespace PetFamily.API.Controllers
         public async Task<ActionResult> UpdateDetailsInfo(
             [FromRoute] Guid id,
             [FromServices] UpdateDetailsHandler handler,
-            [FromBody] DetailsDto dto,
-            [FromServices] IValidator<UpdateDetailsRequest> validator,
+            [FromBody] UpdateDetailsRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateDetailsRequest(id, dto);
+            var command = new UpdateDetailsCommand(
+                id,
+                request.Name,
+                request.Description);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -98,19 +109,14 @@ namespace PetFamily.API.Controllers
         public async Task<ActionResult> UpdateSocialNetworksInfo(
             [FromRoute] Guid id,
             [FromServices] UpdateSocialNetworksHendler handler,
-            [FromBody] UpdateSocialNetworksDto dto,
-            [FromServices] IValidator<UpdateSocialNetworksRequest> validator,
+            [FromBody] UpdateSocialNetworksRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateSocialNetworksRequest(id, dto);
+            var command = new UpdateSocialNetworksCommand(
+                id,
+                request.SocialNetworks);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -124,18 +130,11 @@ namespace PetFamily.API.Controllers
         public async Task<ActionResult> HardDelete(
             [FromRoute] Guid id,
             [FromServices] HardDeleteVolunteerHandler handler,
-            [FromServices] IValidator<DeleteVolunteerRequest> validator,
             CancellationToken cancellationToken = default)
         {
-            var request = new DeleteVolunteerRequest(id);
+            var command = new DeleteVolunteerCommand(id);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -149,18 +148,11 @@ namespace PetFamily.API.Controllers
         public async Task<ActionResult> SoftDelete(
             [FromRoute] Guid id,
             [FromServices] SoftDeleteVolunteerHandler handler,
-            [FromServices] IValidator<DeleteVolunteerRequest> validator,
             CancellationToken cancellationToken = default)
         {
-            var request = new DeleteVolunteerRequest(id);
+            var command = new DeleteVolunteerCommand(id);
 
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();

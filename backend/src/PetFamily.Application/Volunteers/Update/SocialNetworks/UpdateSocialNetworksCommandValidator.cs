@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace PetFamily.Application.Volunteers.Update.SocialNetworks
 {
-    public class UpdateSocialNetworksRequestValidator : AbstractValidator<UpdateSocialNetworksRequest>
+    public class UpdateSocialNetworksCommandValidator : AbstractValidator<UpdateSocialNetworksCommand>
     {
-        public UpdateSocialNetworksRequestValidator()
+        public UpdateSocialNetworksCommandValidator()
         {
             RuleFor(r => r.VolunteerId)
                 .NotEmpty()
                 .WithError(Errors.General.ValueIsRequired());
 
-            RuleForEach(c => c.Dto.SocialNetworks).ChildRules(s =>
+            RuleForEach(c => c.SocialNetworks).ChildRules(s =>
             {
                 s.RuleFor(x => new { x.Link, x.Name })
                     .MustBeValueObject(sn => SocialNetwork.Create(sn.Link, sn.Name));

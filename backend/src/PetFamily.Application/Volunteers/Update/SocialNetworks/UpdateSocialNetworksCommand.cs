@@ -8,7 +8,5 @@ using System.Threading.Tasks;
 
 namespace PetFamily.Application.Volunteers.Update.SocialNetworks
 {
-    public record UpdateSocialNetworksRequest(Guid VolunteerId, UpdateSocialNetworksDto Dto);
-
-    public record UpdateSocialNetworksDto(IEnumerable<SocialNetworksDto> SocialNetworks);
+    public record UpdateSocialNetworksCommand(Guid VolunteerId, IEnumerable<SocialNetworksDto> SocialNetworks);
 }

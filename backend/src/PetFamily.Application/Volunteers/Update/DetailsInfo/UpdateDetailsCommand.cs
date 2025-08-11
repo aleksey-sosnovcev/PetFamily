@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace PetFamily.Application.Volunteers.Update.DetailsInfo
 {
-    public record UpdateDetailsRequest(Guid VolunteerId, DetailsDto Details);
-
-    public record UpdateDetailsDto(string Name, string Description);
+    public record UpdateDetailsCommand(
+        Guid VolunteerId,
+        string Name,
+        string Description);
 }

@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace PetFamily.Application.Volunteers.Update.DetailsInfo
 {
-    public class UpdateDetailsRequestValidator : AbstractValidator<UpdateDetailsRequest>
+    public class UpdateDetailsCommandValidator : AbstractValidator<UpdateDetailsCommand>
     {
-        public UpdateDetailsRequestValidator()
+        public UpdateDetailsCommandValidator()
         {
             RuleFor(r => r.VolunteerId)
                 .NotEmpty()
                 .WithError(Errors.General.ValueIsRequired());
 
-            RuleFor(r => r.Details)
+            RuleFor(r => new { r.Name, r.Description })
                 .MustBeValueObject(d => Details.Create(d.Name, d.Description));
         }
     }

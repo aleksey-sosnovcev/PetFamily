@@ -42,10 +42,10 @@ namespace PetFamily.API
                 .AddInfrastructure()
                 .AddApplication();
 
-            builder.Services.AddFluentValidationAutoValidation(configuration =>
-            {
-                configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
-            });
+            //builder.Services.AddFluentValidationAutoValidation(configuration =>
+            //{
+            //    configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
+            //});
 
             var app = builder.Build();
 

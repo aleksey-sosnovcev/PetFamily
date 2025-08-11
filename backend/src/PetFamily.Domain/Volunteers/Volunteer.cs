@@ -63,6 +63,18 @@ namespace PetFamily.Domain.Volunteers
         {
             return _pets.Where(p => p.Status == StatusType.NeedHelp).Count();
         }
+        public static Result<Volunteer, Error> Create(VolunteerId volunteerId,
+            FullName fullName,
+            Email email,
+            Description description,
+            PhoneNumber phoneNumber,
+            Details details,
+            List<SocialNetwork> socialNetworks)
+        {
+            var volunteer = new Volunteer(volunteerId, fullName, email, description, phoneNumber, details, socialNetworks);
+
+            return volunteer;
+        }
 
         public void UpdateMainInfo(FullName fullName, Description description, PhoneNumber phoneNumber)
         {
@@ -92,7 +104,7 @@ namespace PetFamily.Domain.Volunteers
 
         public override void Restore()
         {
-           base.Restore();
+            base.Restore();
         }
 
         public void DeleteExpiredPets()
@@ -101,17 +113,20 @@ namespace PetFamily.Domain.Volunteers
             && DateTime.UtcNow >= p.DeletionDate.Value
             .AddDays(Constants.DELETE_EXPIRED_PETS_SERVICE_REDUCTION_HOURS));
         }
-        public static Result<Volunteer, Error> Create(VolunteerId volunteerId,
-            FullName fullName,
-            Email email,
-            Description description,
-            PhoneNumber phoneNumber,
-            Details details,
-            List<SocialNetwork> socialNetworks)
-        {
-            var volunteer = new Volunteer(volunteerId, fullName, email, description, phoneNumber, details, socialNetworks);
 
-            return volunteer;
+        public UnitResult<Error> AddPets(Pet pet)
+        {
+
+            var serialNumberResult = SerialNumber.Create(_pets.Count + 1);
+            if (serialNumberResult.IsFailure)
+                return serialNumberResult.Error;
+
+            pet.SetSerialNumber(serialNumberResult.Value);
+
+
+            _pets.Add(pet);
+            return Result.Success<Error>();
         }
+
     }
 }

@@ -4,10 +4,11 @@ using PetFamily.Domain.ValueObjects;
 
 namespace PetFamily.Application.Volunteers.Update.MainInfo
 {
-    public record UpdateMainInfoRequest(Guid VolunteerId, UpdateMainInfoDto Dto);
-
-    public record UpdateMainInfoDto(
-        FullNameDto FullName,
+    public record UpdateMainInfoCommand(
+        Guid VolunteerId,
+        string Surname,
+        string FirstName,
+        string Patronymic,
         string Description,
         string PhoneNumber);
 }
