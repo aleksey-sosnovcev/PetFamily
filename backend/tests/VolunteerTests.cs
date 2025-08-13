@@ -8,7 +8,7 @@ using PetFamily.Domain.Volunteers;
 namespace tests
 {
     public class VolunteerTests
-    { 
+    {
         [Fact]
         public void Move_Pet_Should_Not_Move_When_Pet_Already_At_New_Position()
         {
@@ -203,7 +203,6 @@ namespace tests
 
             // Assert
             result.IsSuccess.Should().BeTrue();
-
             volunteer.Pets.Count.Should().Be(1);
             volunteer.Pets.Should().Contain(pet);
         }
