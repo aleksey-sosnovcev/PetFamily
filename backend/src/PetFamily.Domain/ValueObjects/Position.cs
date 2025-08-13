@@ -8,20 +8,26 @@ using System.Threading.Tasks;
 
 namespace PetFamily.Domain.ValueObjects
 {
-    public record SerialNumber
+    public record Position
     {
-        private SerialNumber(int value)
+        private Position(int value)
         {
             Value = value;
         }
         public int Value { get; }
 
-        public static Result<SerialNumber, Error> Create(int number)
+        public Result<Position, Error> Forward()
+            => Create(Value + 1);
+
+        public Result<Position, Error> Back()
+            => Create(Value - 1);
+
+        public static Result<Position, Error> Create(int number)
         {
             if (number <= 0)
                 return Errors.General.ValueIsInvalid("Serial number");
 
-            return new SerialNumber(number);
+            return new Position(number);
         }
     }
 }
