@@ -65,7 +65,7 @@ namespace PetFamily.Infrastructure.Providers
             catch (Exception ex)
             {
                 _logger.LogInformation(ex, "Fail to get URl file in minio");
-                return Error.Failure("file.delete", "Fail to get URl file in minio");
+                return Error.Failure("file.get.url", "Fail to get URl file in minio");
             }
         }
 
