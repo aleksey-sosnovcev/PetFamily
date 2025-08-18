@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using PetFamily.Domain.Enum;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects;
 
 namespace PetFamily.Domain.Pets
 {
     public class Pet : SoftDeletableEntity<PetId>
-    {   
+    {
+        private List<FilePath> _files = [];
+
         //EF Core
         private Pet(PetId id) : base(id)
         {
@@ -20,9 +21,7 @@ namespace PetFamily.Domain.Pets
 
         public Name Name { get; private set; } = default!;
         public SpeciasAndBreed SpeciasAndBreed { get; private set; } = default!;
-        public string Species { get; private set; } = default!;
         public Description Description { get; private set; } = default!;
-        public string Breed { get; private set; } = default!;
         public string Color { get; private set; } = default!;
         public InfoHealth InfoHealth { get; private set; } = default!;
         public Address Address { get; private set; } = default!;
@@ -32,17 +31,17 @@ namespace PetFamily.Domain.Pets
         public bool Castration { get; private set; }
         public DateOnly BirthDate { get; private set; }
         public bool Vaccination { get; private set; }
-        public StatusType Status { get; private set; }
+        public HelpStatus Status { get; private set; }
         public Details Details { get; private set; } = default!;
         public DateOnly CreateDate { get; private set; }
         public Position Position { get; private set; } = default!;
+        public IReadOnlyList<FilePath> Files => _files;
 
         public Pet(
             PetId petid,
             Name name,
-            string species,
+            SpeciasAndBreed speciasAndBreed,
             Description description,
-            string breed,
             string color,
             InfoHealth infoHealth,
             Address address,
@@ -52,14 +51,13 @@ namespace PetFamily.Domain.Pets
             bool castration,
             DateOnly birthDate,
             bool vaccination,
-            StatusType status,
+            HelpStatus status,
             Details details,
             DateOnly createDate) : base(petid)
         {
             Name = name;
-            Species = species;
+            SpeciasAndBreed = speciasAndBreed;
             Description = description;
-            Breed = breed;
             Color = color;
             InfoHealth = infoHealth;
             Address = address;
@@ -76,9 +74,8 @@ namespace PetFamily.Domain.Pets
 
         public static Result<Pet, Error> Create(PetId petId,
             Name name,
-            string species,
+            SpeciasAndBreed speciasAndBreed,
             Description description,
-            string breed,
             string color,
             InfoHealth infoHealth,
             Address address,
@@ -88,21 +85,14 @@ namespace PetFamily.Domain.Pets
             bool castration,
             DateOnly birthDate,
             bool vaccination,
-            StatusType status,
+            HelpStatus status,
             Details details,
-            DateOnly createDate)
+            DateOnly createDate
+            )
         {
 
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
 
-            if (string.IsNullOrWhiteSpace(species))
-            {
-                return Errors.General.ValueIsInvalid("Species");
-            }
-            if (string.IsNullOrWhiteSpace(breed))
-            {
-                return Errors.General.ValueIsInvalid("Breed");
-            }
             if (string.IsNullOrWhiteSpace(color))
             {
                 return Errors.General.ValueIsInvalid("Color");
@@ -115,7 +105,7 @@ namespace PetFamily.Domain.Pets
             {
                 return Errors.General.ValueIsInvalid("Growth");
             }
-            if (birthDate > today.AddYears(-50))
+            if (birthDate < today.AddYears(-50))
             {
                 return Errors.General.ValueIsInvalid("BirthDate");
             }
@@ -123,9 +113,8 @@ namespace PetFamily.Domain.Pets
             var pet = new Pet(
                 petId,
                 name,
-                species,
+                speciasAndBreed,
                 description,
-                breed,
                 color,
                 infoHealth,
                 address,
@@ -140,6 +129,15 @@ namespace PetFamily.Domain.Pets
                 createDate);
 
             return pet;
+        }
+
+        public void AddPhoto(FilePath filePath)
+        {
+            _files.Add(filePath);
+        }
+        public void RemovePhoto(FilePath filePath)
+        {
+            _files.Remove(filePath);
         }
 
         public void SetPosition(Position position) =>

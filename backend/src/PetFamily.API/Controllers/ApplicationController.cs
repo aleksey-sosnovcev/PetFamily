@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PetFamily.API.Extensions;
 using PetFamily.API.Response;
-using PetFamily.Application.Volunteers.Create;
+using PetFamily.Application.VolunteerOperations.Create;
 
 namespace PetFamily.API.Controllers
 {

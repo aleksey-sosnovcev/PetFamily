@@ -45,11 +45,6 @@ namespace PetFamily.Infrastructure.Configurations
                     value => BreedId.Create(value));
             });
 
-            builder.Property(p => p.Species)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_NAME_LENGTH)
-                .HasColumnName("species");
-
             builder.ComplexProperty(p => p.Description, tb =>
             {
                 tb.Property(d => d.Value)
@@ -57,11 +52,6 @@ namespace PetFamily.Infrastructure.Configurations
                 .HasMaxLength(Constants.MAX_DESCRIPTION_LENGTH)
                 .HasColumnName("description");
             });
-
-            builder.Property(p => p.Breed)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_NAME_LENGTH)
-                .HasColumnName("breed");
 
             builder.Property(p => p.Color)
                 .IsRequired()
@@ -132,9 +122,13 @@ namespace PetFamily.Infrastructure.Configurations
                 .IsRequired()
                 .HasColumnName("vaccination");
 
-            builder.Property(p => p.Status)
+            builder.ComplexProperty(p => p.Status, sb =>
+            {
+                sb.Property(s => s.Value)
                 .IsRequired()
-                .HasColumnName("status");
+                .HasMaxLength(HelpStatus.MAX_VALUE_LENGTH)
+                .HasColumnName("help_status");
+            });
 
             builder.ComplexProperty(p => p.Details, tb =>
             {
@@ -156,6 +150,15 @@ namespace PetFamily.Infrastructure.Configurations
             builder.Property<bool>("_isDeleted")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("is_deleted");
+
+            builder.OwnsMany(p => p.Files, pb =>
+            {
+                pb.ToJson("files");
+
+                pb.Property(f => f.PathToStorage)
+                 .IsRequired(false)
+                 .HasColumnName("file");
+            });
 
             builder.ComplexProperty(p => p.Position, tb =>
             {

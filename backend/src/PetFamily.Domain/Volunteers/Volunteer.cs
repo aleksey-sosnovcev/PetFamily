@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using PetFamily.Domain.Enum;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects;
 using PetFamily.Domain.Pets;
@@ -51,18 +50,18 @@ namespace PetFamily.Domain.Volunteers
             _socialNetworks = socialNetworks;
         }
 
-        public int CountPetNeedHelp()
-        {
-            return _pets.Where(p => p.Status == StatusType.NeedHelp).Count();
-        }
-        public int CountPetNeedHome()
-        {
-            return _pets.Where(p => p.Status == StatusType.NeedHome).Count();
-        }
-        public int CountPetFoundHome()
-        {
-            return _pets.Where(p => p.Status == StatusType.NeedHelp).Count();
-        }
+        //public int CountPetNeedHelp()
+        //{
+        //    return _pets.Where(p => p.Status == StatusType.NeedHelp).Count();
+        //}
+        //public int CountPetNeedHome()
+        //{
+        //    return _pets.Where(p => p.Status == StatusType.NeedHome).Count();
+        //}
+        //public int CountPetFoundHome()
+        //{
+        //    return _pets.Where(p => p.Status == StatusType.NeedHelp).Count();
+        //}
         public static Result<Volunteer, Error> Create(VolunteerId volunteerId,
             FullName fullName,
             Email email,

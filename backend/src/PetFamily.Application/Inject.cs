@@ -1,18 +1,20 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetFamily.Application.Volunteers;
-using PetFamily.Application.Volunteers.AddPet;
-using PetFamily.Application.Volunteers.Create;
-using PetFamily.Application.Volunteers.Delete.HardDelete;
-using PetFamily.Application.Volunteers.Delete.SoftDelete;
-using PetFamily.Application.Volunteers.Update.DetailsInfo;
-using PetFamily.Application.Volunteers.Update.MainInfo;
-using PetFamily.Application.Volunteers.Update.SocialNetworks;
+using PetFamily.Application.VolunteerOperations;
+using PetFamily.Application.VolunteerOperations.PetOperations;
+using PetFamily.Application.VolunteerOperations.Create;
+using PetFamily.Application.VolunteerOperations.Delete.HardDelete;
+using PetFamily.Application.VolunteerOperations.Delete.SoftDelete;
+using PetFamily.Application.VolunteerOperations.Update.DetailsInfo;
+using PetFamily.Application.VolunteerOperations.Update.MainInfo;
+using PetFamily.Application.VolunteerOperations.Update.SocialNetworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add;
+using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Delete;
 
 namespace PetFamily.Application
 {
@@ -26,9 +28,10 @@ namespace PetFamily.Application
             services.AddScoped<UpdateSocialNetworksHendler>();
             services.AddScoped<HardDeleteVolunteerHandler>();
             services.AddScoped<SoftDeleteVolunteerHandler>();
-            services.AddScoped<AddPetHendler>();
-            services.AddScoped<DeletePetHendler>();
-            services.AddScoped<GetPetHendler>();
+            services.AddScoped<AddPetHandler>();
+            services.AddScoped<DeletePetFileHandler>();
+            services.AddScoped<AddPetFileHandler>();
+            //services.AddScoped<GetPetHendler>();
 
             services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
 

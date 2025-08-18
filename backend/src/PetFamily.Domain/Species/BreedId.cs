@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PetFamily.Domain.Pets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,5 +18,16 @@ namespace PetFamily.Domain.Species
         public static BreedId NewBreedId() => new(Guid.NewGuid());
         public static BreedId Empty() => new(Guid.Empty);
         public static BreedId Create(Guid id) => new(id);
+
+        public static implicit operator BreedId(Guid id) => new(id);
+
+        public static implicit operator Guid(BreedId breedId)
+        {
+            //if (volunteerId is null)
+            //  throw new ArgumentNullException();
+            ArgumentNullException.ThrowIfNull(breedId);
+
+            return breedId.Value;
+        }
     }
 }

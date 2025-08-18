@@ -2,7 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
 using PetFamily.Application.Providers;
-using PetFamily.Application.Volunteers;
+using PetFamily.Application.SpeciesOperations;
+using PetFamily.Application.VolunteerOperations;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
 using PetFamily.Infrastructure.Repositories;
@@ -23,6 +24,7 @@ namespace PetFamily.Infrastructure
             services.AddScoped<ApplicationDbContext>();
 
             services.AddScoped<IVolunteerRepository, VolunteersRepository>();
+            services.AddScoped<ISpeciesRepository, SpeciesRepository>();
 
             services.AddMinio(configuration);
 

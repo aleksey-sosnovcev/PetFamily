@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using PetFamily.Application.Volunteers;
+using PetFamily.Application.VolunteerOperations;
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.ValueObjects;
 using PetFamily.Domain.Volunteers;
