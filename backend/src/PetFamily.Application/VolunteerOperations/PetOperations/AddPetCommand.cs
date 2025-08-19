@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PetFamily.Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations
         bool Castration,
         DateOnly BirthDate,
         bool Vaccination,
-        string Status,
+        StatusType Status,
         string DetailsName,
         string DetailsDescription,
         DateOnly CreateDate);

@@ -173,7 +173,7 @@ namespace PetFamily.API.Controllers
         public async Task<ActionResult> AddPet(
             [FromRoute] Guid id,
             [FromServices] AddPetHandler handler,
-            [FromBody] AddPetRequest request,
+            [FromForm] AddPetRequest request,
             CancellationToken cancellationToken)
         {
             var command = new AddPetCommand(

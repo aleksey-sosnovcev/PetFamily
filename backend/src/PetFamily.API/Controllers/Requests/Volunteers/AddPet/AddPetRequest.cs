@@ -1,4 +1,5 @@
 ﻿using PetFamily.Application.VolunteerOperations.PetOperations;
+using PetFamily.Domain.Enum;
 
 namespace PetFamily.API.Controllers.Requests.Volunteers.AddPet
 {
@@ -20,7 +21,7 @@ namespace PetFamily.API.Controllers.Requests.Volunteers.AddPet
         bool Castration,
         DateOnly BirthDate,
         bool Vaccination,
-        string Status,
+        StatusType Status,
         string DetailsName,
         string DetailsDescription,
         DateOnly CreateDate);

@@ -122,13 +122,9 @@ namespace PetFamily.Infrastructure.Configurations
                 .IsRequired()
                 .HasColumnName("vaccination");
 
-            builder.ComplexProperty(p => p.Status, sb =>
-            {
-                sb.Property(s => s.Value)
+            builder.Property(p => p.Status)
                 .IsRequired()
-                .HasMaxLength(HelpStatus.MAX_VALUE_LENGTH)
-                .HasColumnName("help_status");
-            });
+                .HasColumnName("status");
 
             builder.ComplexProperty(p => p.Details, tb =>
             {

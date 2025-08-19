@@ -45,7 +45,9 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations
 
             RuleFor(p => p.PhoneNumber).MustBeValueObject(PhoneNumber.Create);
 
-            RuleFor(p => p.Status).MustBeValueObject(HelpStatus.Create);
+            RuleFor(p => p.Status)
+                .NotEmpty()
+                .WithError(Errors.General.ValueIsRequired());
 
             RuleFor(p => new {p.DetailsName, p.DetailsDescription})
                 .MustBeValueObject(d => Details.Create(d.DetailsName, d.DetailsDescription));

@@ -57,13 +57,13 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations
             var speciesId = SpeciesId.Create(command.SpeciesId);
             var breedId = BreedId.Create(command.BreedId);
 
-            //var speciesAndBreedCheck = await _speciesRepository.GetBySpeciesAndBreed(
-            //    speciesId,
-            //    breedId,
-            //    cancellationToken);
+            var speciesAndBreedCheck = await _speciesRepository.GetBySpeciesAndBreed(
+                speciesId,
+                breedId,
+                cancellationToken);
 
-            //if (speciesAndBreedCheck.IsFailure)
-            //    return speciesAndBreedCheck.Error.ToErrorList();
+            if (speciesAndBreedCheck.IsFailure)
+                return speciesAndBreedCheck.Error.ToErrorList();
 
             var petId = PetId.NewPetId();
             var name = Name.Create(command.Name).Value;
@@ -83,7 +83,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations
             var castration = command.Castration;
             var birthDate = command.BirthDate;
             var vaccination = command.Vaccination;
-            var status = HelpStatus.Create(command.Status).Value;
+            var status = command.Status;
             var details = Details.Create(command.DetailsName, command.DetailsDescription).Value;
             var createDate = command.CreateDate;
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
+using PetFamily.Domain.Enum;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects;
 
@@ -31,7 +32,7 @@ namespace PetFamily.Domain.Pets
         public bool Castration { get; private set; }
         public DateOnly BirthDate { get; private set; }
         public bool Vaccination { get; private set; }
-        public HelpStatus Status { get; private set; }
+        public StatusType Status { get; private set; }
         public Details Details { get; private set; } = default!;
         public DateOnly CreateDate { get; private set; }
         public Position Position { get; private set; } = default!;
@@ -51,7 +52,7 @@ namespace PetFamily.Domain.Pets
             bool castration,
             DateOnly birthDate,
             bool vaccination,
-            HelpStatus status,
+            StatusType status,
             Details details,
             DateOnly createDate) : base(petid)
         {
@@ -85,7 +86,7 @@ namespace PetFamily.Domain.Pets
             bool castration,
             DateOnly birthDate,
             bool vaccination,
-            HelpStatus status,
+            StatusType status,
             Details details,
             DateOnly createDate
             )
