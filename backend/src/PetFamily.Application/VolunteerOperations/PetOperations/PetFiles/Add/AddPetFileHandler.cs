@@ -81,7 +81,15 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
                 _logger.LogInformation("Added file {fileName}", file.FileData.FilePath.PathToStorage);
             }
 
-            await _repository.Save(volunteerResult.Value, cancellationToken);
+            var saveResult = await _repository.Save(volunteerResult.Value, cancellationToken);
+            if (saveResult.IsFailure)
+            {
+                var removeResult = await _fileProvider.DeleteFiles(filesData, cancellationToken);
+                if (removeResult.IsFailure)
+                    return removeResult.Error;
+
+                return Error.Failure("fail.save.data", "Fail to save data in database").ToErrorList();
+            }
 
             return result;
         }
