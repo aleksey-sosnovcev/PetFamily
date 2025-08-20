@@ -9,37 +9,37 @@ PetFamily - это платформа для поиска новых хозяе�
 + Infrastructure Layer - работа с БД, внешние сервисы
 + API Layer - Web API контроллеры
 
-🛠️ Технологический стек
+🛠️ Технологический стек  
 Backend
-.NET 8 - основная платформа
-ASP.NET Core Web API - REST API
-Entity Framework Core 8 - ORM
-PostgreSQL - основная база данных
-Serilog - структурированное логирование
-Seq - система просмотра и анализа логов
-FluentValidation - валидация входных данных
-Swagger/OpenAPI - документация API
-MinIO - S3-совместимое хранилище файлов
++ .NET 8 - основная платформа
++ ASP.NET Core Web API - REST API
++ Entity Framework Core 8 - ORM
++ PostgreSQL - основная база данных
++ Serilog - структурированное логирование
++ Seq - система просмотра и анализа логов
++ FluentValidation - валидация входных данных
++ Swagger/OpenAPI - документация API
++ MinIO - S3-совместимое хранилище файлов
 
 Инфраструктура
-Docker - контейнеризация
-Docker Compose - оркестрация
-PostgreSQL - основная СУБД
++ Docker - контейнеризация
++ Docker Compose - оркестрация
++ PostgreSQL - основная СУБД
 
 # Клонирование репозитория
-git clone https://github.com/aleksey-sosnovcev/PetFamily.git
+git clone https://github.com/aleksey-sosnovcev/PetFamily.git  
 cd PetFamily
 
 📁 Структура проекта
-text
-PetFamily/
-├── src/
-│   ├── PetFamily.API/           # Web API проект (Swagger, контроллеры)
-│   ├── PetFamily.Application/   # Use cases, CQRS, FluentValidation
-│   ├── PetFamily.Domain/        # Доменные сущности
-│   ├── PetFamily.Infrastructure/ # Репозитории, сервисы (MinIO, Seq)
-├── tests/
-│   ├── PetFamily.UnitTests/     # Юнит-тесты (включая валидацию)
-│   └── PetFamily.IntegrationTests/ # Интеграционные тесты
-├── docker-compose.yml          # Docker Compose (все сервисы)
-└── README.md
+text  
+PetFamily/  
+├── src/  
+│   ├── PetFamily.API/           # Web API проект (Swagger, контроллеры)  
+│   ├── PetFamily.Application/   # Use cases, CQRS, FluentValidation  
+│   ├── PetFamily.Domain/        # Доменные сущности  
+│   ├── PetFamily.Infrastructure/ # Репозитории, сервисы (MinIO, Seq)  
+├── tests/  
+│   ├── PetFamily.UnitTests/     # Юнит-тесты (включая валидацию)  
+│   └── PetFamily.IntegrationTests/ # Интеграционные тесты  
+├── docker-compose.yml          # Docker Compose (все сервисы)  
+└── README.md  
