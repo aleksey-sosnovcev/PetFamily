@@ -2,8 +2,8 @@
 {
     public enum StatusType
     {
-        NeedHelp,
-        NeedHome,
-        FoundHome
+        NeedHelp = 1,
+        NeedHome = 2,
+        FoundHome = 3
     }
 }

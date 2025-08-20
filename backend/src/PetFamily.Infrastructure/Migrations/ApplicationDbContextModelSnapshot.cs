@@ -32,12 +32,6 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasColumnType("date")
                         .HasColumnName("birth_date");
 
-                    b.Property<string>("Breed")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("breed");
-
                     b.Property<bool>("Castration")
                         .HasColumnType("boolean")
                         .HasColumnName("castration");
@@ -61,12 +55,6 @@ namespace PetFamily.Infrastructure.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Species")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("species");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")
@@ -350,6 +338,31 @@ namespace PetFamily.Infrastructure.Migrations
                         .WithMany("Pets")
                         .HasForeignKey("volunteer_id")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsMany("PetFamily.Domain.ValueObjects.FilePath", "Files", b1 =>
+                        {
+                            b1.Property<Guid>("PetId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("__synthesizedOrdinal")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("PathToStorage")
+                                .HasColumnType("text")
+                                .HasColumnName("file");
+
+                            b1.HasKey("PetId", "__synthesizedOrdinal");
+
+                            b1.ToTable("pets");
+
+                            b1.ToJson("files");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PetId");
+                        });
+
+                    b.Navigation("Files");
                 });
 
             modelBuilder.Entity("PetFamily.Domain.Species.Breed", b =>

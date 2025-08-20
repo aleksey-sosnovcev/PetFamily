@@ -5,19 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using PetFamily.Application.Volunteers;
+using PetFamily.Application.VolunteerOperations;
 using CSharpFunctionalExtensions;
 using PetFamily.Domain.ValueObjects;
 using PetFamily.Domain.Volunteers;
+using Microsoft.Extensions.Logging;
 
 namespace PetFamily.Infrastructure.Repositories
 {
     public class VolunteersRepository : IVolunteerRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        public VolunteersRepository(ApplicationDbContext dbContext)
+        private readonly ILogger<VolunteersRepository> _logger;
+
+        public VolunteersRepository(
+            ApplicationDbContext dbContext,
+            ILogger<VolunteersRepository> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public async Task<Guid> Add(
@@ -30,14 +36,22 @@ namespace PetFamily.Infrastructure.Repositories
             return volunteer.Id; 
         }
 
-        public async Task<Guid> Save(
+        public async Task<Result<Guid, ErrorList>> Save(
             Volunteer volunteer, CancellationToken cancellationToken = default)
         {
-            _dbContext.Volunteers.Attach(volunteer);
+            try
+            {
+                _dbContext.Volunteers.Attach(volunteer);
 
-            await _dbContext.SaveChangesAsync(cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return volunteer.Id;
+                return volunteer.Id.Value;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex, "Fail to save volunteer in database");
+                return Error.Failure("volunteer.save.database", "Fail to save volunteer in database").ToErrorList();
+            }
         }
 
         public async Task<Guid> Delete(Volunteer volunteer, CancellationToken cancellationToken = default)
