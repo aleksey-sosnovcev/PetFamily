@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetFamily.Application.VolunteerOperations;
-using PetFamily.Application.VolunteerOperations.PetOperations;
 using PetFamily.Application.VolunteerOperations.Create;
 using PetFamily.Application.VolunteerOperations.Delete.HardDelete;
 using PetFamily.Application.VolunteerOperations.Delete.SoftDelete;
@@ -15,6 +14,8 @@ using System.Text;
 using System.Threading.Tasks;
 using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add;
 using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Delete;
+using PetFamily.Application.VolunteerOperations.PetOperations.Add;
+using PetFamily.Application.VolunteerOperations.PetOperations.Move;
 
 namespace PetFamily.Application
 {
@@ -31,7 +32,7 @@ namespace PetFamily.Application
             services.AddScoped<AddPetHandler>();
             services.AddScoped<DeletePetFileHandler>();
             services.AddScoped<AddPetFileHandler>();
-            //services.AddScoped<GetPetHendler>();
+            services.AddScoped<MovePetHandler>();
 
             services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
 

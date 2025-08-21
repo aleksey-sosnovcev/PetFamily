@@ -10,11 +10,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetFamily.Application.VolunteerOperations.PetOperations
+namespace PetFamily.Application.VolunteerOperations.PetOperations.Add
 {
     public class AddPetCommandValidator : AbstractValidator<AddPetCommand>
     {
-        public AddPetCommandValidator() 
+        public AddPetCommandValidator()
         {
             RuleFor(p => p.VolunteerId)
                 .NotEmpty()
@@ -25,7 +25,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations
             RuleFor(p => new { p.SpeciesId, p.BreedId }).MustBeValueObject(s => SpeciasAndBreed.Create(s.SpeciesId, s.BreedId));
 
             RuleFor(p => p.Description).MustBeValueObject(Description.Create);
-            
+
             RuleFor(p => p.Color)
                 .NotEmpty()
                 .WithError(Errors.General.ValueIsRequired());
@@ -49,7 +49,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations
                 .NotEmpty()
                 .WithError(Errors.General.ValueIsRequired());
 
-            RuleFor(p => new {p.DetailsName, p.DetailsDescription})
+            RuleFor(p => new { p.DetailsName, p.DetailsDescription })
                 .MustBeValueObject(d => Details.Create(d.DetailsName, d.DetailsDescription));
         }
     }

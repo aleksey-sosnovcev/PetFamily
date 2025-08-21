@@ -20,18 +20,18 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
     {
         private const string BUCKET_NAME = "photos";
 
-        private readonly IVolunteerRepository _repository;
+        private readonly IVolunteerRepository _volunteerRepository;
         private readonly IFileProvider _fileProvider;
         private readonly IValidator<AddPetFileCommand> _validator;
         private readonly ILogger<AddPetFileHandler> _logger;
 
         public AddPetFileHandler(
-            IVolunteerRepository repository,
+            IVolunteerRepository volunteerRepository,
             IFileProvider fileProvider,
             IValidator<AddPetFileCommand> validator,
             ILogger<AddPetFileHandler> logger)
         {
-            _repository = repository;
+            _volunteerRepository = volunteerRepository;
             _fileProvider = fileProvider;
             _validator = validator;
             _logger = logger;
@@ -47,7 +47,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
                 return validationResult.ErrorList();
             }
 
-            var volunteerResult = await _repository.GetById(
+            var volunteerResult = await _volunteerRepository.GetById(
                 VolunteerId.Create(command.VolunteerId), cancellationToken);
 
             if (volunteerResult.IsFailure)
@@ -81,7 +81,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
                 _logger.LogInformation("Added file {fileName}", file.FileData.FilePath.PathToStorage);
             }
 
-            var saveResult = await _repository.Save(volunteerResult.Value, cancellationToken);
+            var saveResult = await _volunteerRepository.Save(volunteerResult.Value, cancellationToken);
             if (saveResult.IsFailure)
             {
                 var removeResult = await _fileProvider.DeleteFiles(filesData, cancellationToken);

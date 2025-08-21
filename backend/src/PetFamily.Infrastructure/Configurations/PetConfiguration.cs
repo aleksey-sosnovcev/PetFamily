@@ -131,7 +131,7 @@ namespace PetFamily.Infrastructure.Configurations
                 tb.Property(d => d.Name)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_NAME_LENGTH)
-                .HasColumnName("name");
+                .HasColumnName("details_name");
 
                 tb.Property(d => d.Description)
                 .IsRequired()

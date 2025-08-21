@@ -19,13 +19,15 @@ using PetFamily.Domain.ValueObjects;
 using System.Collections.Generic;
 using PetFamily.API.Controllers.Requests.Volunteers.Update;
 using PetFamily.API.Controllers.Requests.Volunteers.Create;
-using PetFamily.Application.VolunteerOperations.PetOperations;
-using PetFamily.API.Controllers.Requests.Volunteers.AddPet;
 using CSharpFunctionalExtensions;
 using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add;
 using PetFamily.API.Processors;
 using PetFamily.API.Controllers.Requests.Volunteers.DeletePetFile;
 using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Delete;
+using PetFamily.Application.VolunteerOperations.PetOperations.Add;
+using PetFamily.API.Controllers.Requests.Volunteers.Pet.Add;
+using PetFamily.API.Controllers.Requests.Volunteers.Pet.Move;
+using PetFamily.Application.VolunteerOperations.PetOperations.Move;
 
 namespace PetFamily.API.Controllers
 {
@@ -225,7 +227,7 @@ namespace PetFamily.API.Controllers
 
             var result = await handler.Handle(command, cancellationToken);
 
-            if(result.IsFailure)
+            if (result.IsFailure)
                 return result.Error.ToResponse();
 
             var envelope = Envelope.Ok(result.Value);
@@ -244,12 +246,31 @@ namespace PetFamily.API.Controllers
             var command = new DeletePetFileCommand(volunteerId, petId, request.FileName);
 
             var result = await handler.Handle(command, cancellationToken);
-            if(result.IsFailure)
+            if (result.IsFailure)
                 return result.Error.ToResponse();
 
             var envelope = Envelope.Ok(result.Value);
 
             return Ok(envelope);
         }
+
+        [HttpPut("{volunteerId:guid}/pet/{petId:guid}/position")]
+        public async Task<ActionResult> MovePet(
+            [FromRoute] Guid volunteerId,
+            [FromRoute] Guid petId,
+            [FromForm] MovePetRequest request,
+            [FromServices] MovePetHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var command = new MovePetCommand(volunteerId, petId, request.NewPosition);
+
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            var envelope = Envelope.Ok(result.Value);
+
+            return Ok(envelope);
+        } 
     }
 }
