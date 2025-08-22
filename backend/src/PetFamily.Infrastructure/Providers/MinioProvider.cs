@@ -28,6 +28,39 @@ namespace PetFamily.Infrastructure.Providers
             _logger = logger;
         }
 
+        public async Task<UnitResult<Error>> RemoveFile(
+            FileData fileDatas,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await IfBucketsNotExistCreateBucket([fileDatas.BucketName], cancellationToken);
+
+                var statArgs = new StatObjectArgs()
+                    .WithBucket(fileDatas.BucketName)
+                    .WithObject(fileDatas.FilePath.PathToStorage);
+
+                var objectStat = await _minioClient.StatObjectAsync(statArgs, cancellationToken);
+                if(objectStat is null) 
+                    return Result.Success<Error>();
+
+                var removeArgs = new RemoveObjectArgs()
+                    .WithBucket(fileDatas.BucketName)
+                    .WithObject(fileDatas.FilePath.PathToStorage);
+
+                await _minioClient.RemoveObjectAsync(removeArgs, cancellationToken);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogInformation(ex,
+                    "Fail to remove file in minio with path {path} in bucket {bucket}",
+                    fileDatas.FilePath.PathToStorage,
+                    fileDatas.BucketName);
+
+                return Error.Failure("file.remove", "Fail to remove file in minio");
+            }
+            return Result.Success<Error>();
+        }
         public async Task<Result<IReadOnlyList<FilePath>, ErrorList>> DeleteFiles(
             IEnumerable<StreamFileData> filesData,
             CancellationToken cancellationToken = default)
@@ -86,7 +119,9 @@ namespace PetFamily.Infrastructure.Providers
 
             try
             {
-                await IfBucketsNotExistCreateBucket(filesList, cancellationToken);
+                await IfBucketsNotExistCreateBucket(
+                    filesList.Select(file => file.FileData.BucketName),
+                    cancellationToken);
 
                 var tasks = filesList.Select(async file =>
                     await PutObject(file, semaphoreSlim, cancellationToken));
@@ -197,10 +232,10 @@ namespace PetFamily.Infrastructure.Providers
         }
 
         private async Task IfBucketsNotExistCreateBucket(
-        IEnumerable<StreamFileData> filesData,
+        IEnumerable<string> buckets,
         CancellationToken cancellationToken)
         {
-            HashSet<string> bucketsName = [.. filesData.Select(file => file.FileData.BucketName)];
+            HashSet<string> bucketsName = [.. buckets];
 
             foreach (var bucketName in bucketsName)
             {

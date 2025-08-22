@@ -57,13 +57,13 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.Add
             var speciesId = SpeciesId.Create(command.SpeciesId);
             var breedId = BreedId.Create(command.BreedId);
 
-            //var speciesAndBreedCheck = await _speciesRepository.GetBySpeciesAndBreed(
-            //    speciesId,
-            //    breedId,
-            //    cancellationToken);
+            var speciesAndBreedCheck = await _speciesRepository.GetBySpeciesAndBreed(
+                speciesId,
+                breedId,
+                cancellationToken);
 
-            //if (speciesAndBreedCheck.IsFailure)
-            //    return speciesAndBreedCheck.Error.ToErrorList();
+            if (speciesAndBreedCheck.IsFailure)
+                return speciesAndBreedCheck.Error.ToErrorList();
 
             var petId = PetId.NewPetId();
             var name = Name.Create(command.Name).Value;

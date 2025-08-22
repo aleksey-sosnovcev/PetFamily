@@ -18,10 +18,15 @@ namespace PetFamily.Application.Providers
         Task<Result<string, ErrorList>> DeleteFile(
             FileData fileData,
             CancellationToken cancellationToken);
-
         Task<Result<IReadOnlyList<FilePath>, ErrorList>> DeleteFiles(
             IEnumerable<StreamFileData> filesData,
             CancellationToken cancellationToken = default);
-        Task<Result<string, Error>> GetFileUrl(FileData fileData, CancellationToken cancellationToken);
+
+        Task<UnitResult<Error>> RemoveFile(
+            FileData fileDatas,
+            CancellationToken cancellationToken = default);
+        Task<Result<string, Error>> GetFileUrl(
+            FileData fileData,
+            CancellationToken cancellationToken);
     }
 }
