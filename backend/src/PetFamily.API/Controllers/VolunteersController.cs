@@ -22,12 +22,12 @@ using PetFamily.API.Controllers.Requests.Volunteers.Create;
 using CSharpFunctionalExtensions;
 using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add;
 using PetFamily.API.Processors;
-using PetFamily.API.Controllers.Requests.Volunteers.DeletePetFile;
 using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Delete;
 using PetFamily.Application.VolunteerOperations.PetOperations.Add;
 using PetFamily.API.Controllers.Requests.Volunteers.Pet.Add;
 using PetFamily.API.Controllers.Requests.Volunteers.Pet.Move;
 using PetFamily.Application.VolunteerOperations.PetOperations.Move;
+using PetFamily.API.Controllers.Requests.Volunteers.Pet.DeleteFile;
 
 namespace PetFamily.API.Controllers
 {
@@ -47,18 +47,7 @@ namespace PetFamily.API.Controllers
             CancellationToken cancellationToken = default)
         {
             //вызвать сервис для создания волонтера (вызов бизнес логики)
-            var command = new CreateVolunteerCommand(
-                request.Surname,
-                request.FirstName,
-                request.Patronymic,
-                request.Email,
-                request.Description,
-                request.PhoneNumber,
-                request.DetailsName,
-                request.DetailsDescription,
-                request.SocialNetworks);
-
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.Handle(request.ToCommand(), cancellationToken);
             if (result.IsFailure)
                 return result.Error.ToResponse();
 
@@ -74,15 +63,7 @@ namespace PetFamily.API.Controllers
             [FromBody] UpdateMainInfoRequest request,
             CancellationToken cancellationToken = default)
         {
-            var command = new UpdateMainInfoCommand(
-                id,
-                request.Surname,
-                request.FirstName,
-                request.Patronymic,
-                request.Description,
-                request.PhoneNumber);
-
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.Handle(request.ToCommand(id), cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -99,12 +80,7 @@ namespace PetFamily.API.Controllers
             [FromBody] UpdateDetailsRequest request,
             CancellationToken cancellationToken = default)
         {
-            var command = new UpdateDetailsCommand(
-                id,
-                request.Name,
-                request.Description);
-
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.Handle(request.ToCommand(id), cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -121,11 +97,7 @@ namespace PetFamily.API.Controllers
             [FromBody] UpdateSocialNetworksRequest request,
             CancellationToken cancellationToken = default)
         {
-            var command = new UpdateSocialNetworksCommand(
-                id,
-                request.SocialNetworks);
-
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.Handle(request.ToCommand(id), cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -178,31 +150,7 @@ namespace PetFamily.API.Controllers
             [FromForm] AddPetRequest request,
             CancellationToken cancellationToken)
         {
-            var command = new AddPetCommand(
-                id,
-                request.Name,
-                request.SpeciesId,
-                request.Description,
-                request.BreedId,
-                request.Color,
-                request.InfoHealth,
-                request.City,
-                request.Street,
-                request.HouseNumber,
-                request.Apartment,
-                request.PostalCode,
-                request.Weight,
-                request.Grouwth,
-                request.PhoneNumber,
-                request.Castration,
-                request.BirthDate,
-                request.Vaccination,
-                request.Status,
-                request.DetailsName,
-                request.DetailsDescription,
-                request.CreateDate);
-
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.Handle(request.ToCommand(id), cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -243,9 +191,7 @@ namespace PetFamily.API.Controllers
             [FromServices] DeletePetFileHandler handler,
             CancellationToken cancellationToken)
         {
-            var command = new DeletePetFileCommand(volunteerId, petId, request.FileName);
-
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.Handle(request.ToCommand(volunteerId, petId), cancellationToken);
             if (result.IsFailure)
                 return result.Error.ToResponse();
 
@@ -262,9 +208,7 @@ namespace PetFamily.API.Controllers
             [FromServices] MovePetHandler handler,
             CancellationToken cancellationToken)
         {
-            var command = new MovePetCommand(volunteerId, petId, request.NewPosition);
-
-            var result = await handler.Handle(command, cancellationToken);
+            var result = await handler.Handle(request.ToCommand(volunteerId, petId), cancellationToken);
             if (result.IsFailure)
                 return result.Error.ToResponse();
 

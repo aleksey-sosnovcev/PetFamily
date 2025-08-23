@@ -1,4 +1,5 @@
 ﻿using PetFamily.Application.VolunteerOperations.PetOperations;
+using PetFamily.Application.VolunteerOperations.PetOperations.Add;
 using PetFamily.Domain.Enum;
 
 namespace PetFamily.API.Controllers.Requests.Volunteers.Pet.Add
@@ -24,5 +25,30 @@ namespace PetFamily.API.Controllers.Requests.Volunteers.Pet.Add
         StatusType Status,
         string DetailsName,
         string DetailsDescription,
-        DateOnly CreateDate);
+        DateOnly CreateDate)
+    {
+        public AddPetCommand ToCommand(Guid volunteerId) =>
+            new(volunteerId,
+                Name,
+                SpeciesId,
+                Description,
+                BreedId,
+                Color,
+                InfoHealth,
+                City,
+                Street,
+                HouseNumber,
+                Apartment,
+                PostalCode,
+                Weight,
+                Grouwth,
+                PhoneNumber,
+                Castration,
+                BirthDate,
+                Vaccination,
+                Status,
+                DetailsName,
+                DetailsDescription,
+                CreateDate);
+    }
 }
