@@ -11,10 +11,10 @@ namespace PetFamily.Application.Extensions
 {
     public static class ValidationErrorsExtentions
     {
-        public static ErrorList ErrorList(this ValidationResult validationResult)
+        public static ErrorList ToErrorList(this ValidationResult validationResult)
         {
             var validationErrors = validationResult.Errors;
-
+            
             var responseErrors = from validationError in validationErrors
                                  let errorMessage = validationError.ErrorMessage
                                  let error = Error.Deserialize(errorMessage)

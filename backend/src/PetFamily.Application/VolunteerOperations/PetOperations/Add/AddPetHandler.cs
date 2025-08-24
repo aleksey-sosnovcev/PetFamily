@@ -45,7 +45,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.Add
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if (validationResult.IsValid == false)
             {
-                return validationResult.ErrorList();
+                return validationResult.ToErrorList();
             }
 
             var volunteerResult = await _volunteerRepository

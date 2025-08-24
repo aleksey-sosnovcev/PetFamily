@@ -38,7 +38,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.Move
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if (validationResult.IsValid == false)
             {
-                return validationResult.ErrorList();
+                return validationResult.ToErrorList();
             }
 
             var volunteerResult = await _volunteerRepository.GetById(
@@ -51,7 +51,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.Move
                 p => p.Id == PetId.Create(command.PetId));
 
             if (petExist is null)
-                return Errors.General.NotFound().ToErrorList();
+                return Errors.Pet.NotFound().ToErrorList();
 
             var newPosition = Position.Create(command.NewPosition).Value;
 

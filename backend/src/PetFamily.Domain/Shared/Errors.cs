@@ -36,5 +36,13 @@ namespace PetFamily.Domain.Shared
                 return Error.Validation("record.already.exist", "Volunteer already exist");
             }
         }
+
+        public static class Pet
+        {
+            public static Error NotFound()
+            {
+                return Error.NotFound("record.not.found", $"pet not found");
+            }
+        }
     }
 }
