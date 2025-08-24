@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetFamily.Application.Extensions;
 using PetFamily.Application.FileProvider;
+using PetFamily.Application.Messaging;
 using PetFamily.Application.Providers;
 using PetFamily.Domain.Pets;
 using PetFamily.Domain.Shared;
@@ -20,19 +21,22 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
     {
         private const string BUCKET_NAME = "photos";
 
-        private readonly IVolunteerRepository _repository;
+        private readonly IVolunteerRepository _volunteerRepository;
         private readonly IFileProvider _fileProvider;
+        private readonly IMessageQueue<IEnumerable<FileData>> _messageQueue;
         private readonly IValidator<AddPetFileCommand> _validator;
         private readonly ILogger<AddPetFileHandler> _logger;
 
         public AddPetFileHandler(
-            IVolunteerRepository repository,
+            IVolunteerRepository volunteerRepository,
             IFileProvider fileProvider,
+            IMessageQueue<IEnumerable<FileData>> messageQueue,
             IValidator<AddPetFileCommand> validator,
             ILogger<AddPetFileHandler> logger)
         {
-            _repository = repository;
+            _volunteerRepository = volunteerRepository;
             _fileProvider = fileProvider;
+            _messageQueue = messageQueue;
             _validator = validator;
             _logger = logger;
         }
@@ -47,7 +51,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
                 return validationResult.ErrorList();
             }
 
-            var volunteerResult = await _repository.GetById(
+            var volunteerResult = await _volunteerRepository.GetById(
                 VolunteerId.Create(command.VolunteerId), cancellationToken);
 
             if (volunteerResult.IsFailure)
@@ -71,9 +75,13 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
                 filesData.Add(fileContent);
             }
 
-            var result = await _fileProvider.UploadFile(filesData, cancellationToken);
-            if (result.IsFailure)
-                return result.Error;
+            var filePathsResult = await _fileProvider.UploadFile(filesData, cancellationToken);
+            if (filePathsResult.IsFailure)
+            {
+                await _messageQueue.WriteAsync(filesData.Select(f => f.FileData), cancellationToken);
+
+                return filePathsResult.Error;
+            }
 
             foreach(var file in filesData)
             {
@@ -81,7 +89,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
                 _logger.LogInformation("Added file {fileName}", file.FileData.FilePath.PathToStorage);
             }
 
-            var saveResult = await _repository.Save(volunteerResult.Value, cancellationToken);
+            var saveResult = await _volunteerRepository.Save(volunteerResult.Value, cancellationToken);
             if (saveResult.IsFailure)
             {
                 var removeResult = await _fileProvider.DeleteFiles(filesData, cancellationToken);
@@ -91,7 +99,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
                 return Error.Failure("fail.save.data", "Fail to save data in database").ToErrorList();
             }
 
-            return result;
+            return filePathsResult;
         }
     }
 }

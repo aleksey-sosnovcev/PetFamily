@@ -1,4 +1,5 @@
-﻿using PetFamily.Application.VolunteerOperations.Dtos;
+﻿using PetFamily.Application.VolunteerOperations.Create;
+using PetFamily.Application.VolunteerOperations.Dtos;
 
 namespace PetFamily.API.Controllers.Requests.Volunteers.Create
 {
@@ -11,5 +12,17 @@ namespace PetFamily.API.Controllers.Requests.Volunteers.Create
        string PhoneNumber,
        string DetailsName,
        string DetailsDescription,
-       IEnumerable<SocialNetworksDto> SocialNetworks);
+       IEnumerable<SocialNetworksDto> SocialNetworks)
+    {
+        public CreateVolunteerCommand ToCommand() =>
+            new(Surname,
+                FirstName, 
+                Patronymic, 
+                Email, 
+                Description, 
+                PhoneNumber, 
+                DetailsName, 
+                DetailsDescription, 
+                SocialNetworks);
+    }
 }

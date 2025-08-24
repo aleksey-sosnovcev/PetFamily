@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetFamily.Application.VolunteerOperations.PetOperations
+namespace PetFamily.Application.VolunteerOperations.PetOperations.Add
 {
     public class AddPetHandler
     {
@@ -72,10 +72,10 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations
             var color = command.Color;
             var infoHealth = InfoHealth.Create(command.InfoHealth).Value;
             var address = Address.Create(
-                command.City, 
-                command.Street, 
-                command.HouseNumber, 
-                command.Apartment, 
+                command.City,
+                command.Street,
+                command.HouseNumber,
+                command.Apartment,
                 command.PostalCode).Value;
             var weigth = command.Weight;
             var grouwth = command.Grouwth;
@@ -107,7 +107,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations
 
 
             var addResult = volunteerResult.Value.AddPet(pet.Value);
-            if(addResult.IsFailure)
+            if (addResult.IsFailure)
                 return addResult.Error.ToErrorList();
 
             await _volunteerRepository.Save(volunteerResult.Value, cancellationToken);

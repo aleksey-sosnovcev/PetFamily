@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
+using PetFamily.Application.FileProvider;
+using PetFamily.Application.Messaging;
 using PetFamily.Application.Providers;
 using PetFamily.Application.SpeciesOperations;
 using PetFamily.Application.VolunteerOperations;
+using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
 using PetFamily.Infrastructure.Repositories;
@@ -25,6 +28,8 @@ namespace PetFamily.Infrastructure
 
             services.AddScoped<IVolunteerRepository, VolunteersRepository>();
             services.AddScoped<ISpeciesRepository, SpeciesRepository>();
+
+            services.AddSingleton<IMessageQueue<IEnumerable<FileData>>, InMemoryMessageQueue<IEnumerable<FileData>>>();
 
             services.AddMinio(configuration);
 
