@@ -37,7 +37,7 @@ namespace PetFamily.Application.VolunteerOperations.Create
             
             if (validationResult.IsValid == false)
             {
-                return validationResult.ErrorList();
+                return validationResult.ToErrorList();
             }
 
             var volunteerId = VolunteerId.NewVolunteerId();

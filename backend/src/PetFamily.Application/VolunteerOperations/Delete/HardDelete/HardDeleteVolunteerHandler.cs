@@ -37,7 +37,7 @@ namespace PetFamily.Application.VolunteerOperations.Delete.HardDelete
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if (validationResult.IsValid == false)
             {
-                return validationResult.ErrorList();
+                return validationResult.ToErrorList();
             }
 
             var volunteerResult = await _volunteerRepository.GetById(command.VolunteerId, cancellationToken);

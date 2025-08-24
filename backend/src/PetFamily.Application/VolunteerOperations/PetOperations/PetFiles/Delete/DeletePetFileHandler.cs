@@ -46,7 +46,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Delet
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if (validationResult.IsValid == false)
             {
-                return validationResult.ErrorList();
+                return validationResult.ToErrorList();
             }
 
             var volunteerResult = await _repository.GetById(
@@ -59,7 +59,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Delet
                 p => p.Id == PetId.Create(command.PetId));
 
             if (petExist is null)
-                return Errors.General.NotFound().ToErrorList();
+                return Errors.Pet.NotFound().ToErrorList();
 
             var filePath = FilePath.Create(command.Files);
             if (filePath.IsFailure)

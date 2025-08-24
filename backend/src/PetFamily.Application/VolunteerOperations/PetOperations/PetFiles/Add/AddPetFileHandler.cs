@@ -48,7 +48,7 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
             if (validationResult.IsValid == false)
             {
-                return validationResult.ErrorList();
+                return validationResult.ToErrorList();
             }
 
             var volunteerResult = await _volunteerRepository.GetById(
@@ -61,12 +61,11 @@ namespace PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add
                 p => p.Id == PetId.Create(command.PetId));
 
             if (petExist is null)
-                return Errors.General.NotFound().ToErrorList();
+                return Errors.Pet.NotFound().ToErrorList();
 
             List<StreamFileData> filesData = [];
             foreach (var file in command.Files)
             {
-                
                 var filePath = FilePath.Create(Guid.NewGuid().ToString());
                 if(filePath.IsFailure)
                     return filePath.Error.ToErrorList();
