@@ -1,5 +1,5 @@
 ﻿
-using PetFamily.Application.VolunteerOperations.Dtos;
+using PetFamily.Application.Dtos;
 
 namespace PetFamily.API.Processors
 {

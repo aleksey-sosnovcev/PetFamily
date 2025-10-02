@@ -1,4 +1,4 @@
-﻿using PetFamily.Application.VolunteerOperations.Update.DetailsInfo;
+﻿using PetFamily.Application.VolunteerOperations.Commands.Update.DetailsInfo;
 
 namespace PetFamily.API.Controllers.Requests.Volunteers.Update
 {

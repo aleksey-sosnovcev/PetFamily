@@ -1,15 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
-using PetFamily.Application.FileProvider;
+using PetFamily.Application.Database;
+using PetFamily.Application.Files;
 using PetFamily.Application.Messaging;
 using PetFamily.Application.Providers;
 using PetFamily.Application.SpeciesOperations;
 using PetFamily.Application.VolunteerOperations;
+using PetFamily.Infrastructure.BackgroundServices;
+using PetFamily.Infrastructure.DbContexts;
 using PetFamily.Infrastructure.MessageQueues;
 using PetFamily.Infrastructure.Options;
 using PetFamily.Infrastructure.Providers;
 using PetFamily.Infrastructure.Repositories;
+using PetFamily.Infrastructure.ConnectionFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +28,17 @@ namespace PetFamily.Infrastructure
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<WriteDbContext>();
 
             services.AddScoped<IVolunteerRepository, VolunteersRepository>();
             services.AddScoped<ISpeciesRepository, SpeciesRepository>();
+            services.AddScoped<IReadDbContext, ReadDbContext>();
+            services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
+
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
             services.AddSingleton<IMessageQueue<IEnumerable<FileData>>, InMemoryMessageQueue<IEnumerable<FileData>>>();
-
+            //services.AddHostedService<FilesCleanerBackgroundService>();
             services.AddMinio(configuration);
 
             return services;

@@ -10,20 +10,32 @@ using CSharpFunctionalExtensions;
 using PetFamily.Domain.ValueObjects;
 using PetFamily.Domain.Volunteers;
 using Microsoft.Extensions.Logging;
+using PetFamily.Infrastructure.DbContexts;
 
 namespace PetFamily.Infrastructure.Repositories
 {
     public class VolunteersRepository : IVolunteerRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly WriteDbContext _dbContext;
         private readonly ILogger<VolunteersRepository> _logger;
 
         public VolunteersRepository(
-            ApplicationDbContext dbContext,
+            WriteDbContext dbContext,
             ILogger<VolunteersRepository> logger)
         {
             _dbContext = dbContext;
             _logger = logger;
+        }
+
+
+        public async Task<IReadOnlyList<Volunteer>> GetWithPagination(
+            VolunteerId volunteerId,
+            CancellationToken cancellationToken)
+        {
+            var volunteers = await _dbContext.Volunteers
+                .ToListAsync(cancellationToken);
+
+            return volunteers;
         }
 
         public async Task<Guid> Add(

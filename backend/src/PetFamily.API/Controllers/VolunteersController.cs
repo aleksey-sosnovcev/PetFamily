@@ -3,31 +3,30 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetFamily.API.Extensions;
 using PetFamily.API.Response;
-using PetFamily.Application.VolunteerOperations.Create;
-using PetFamily.Application.VolunteerOperations.Delete;
-using PetFamily.Application.VolunteerOperations.Delete.HardDelete;
-using PetFamily.Application.VolunteerOperations.Delete.SoftDelete;
-using PetFamily.Application.VolunteerOperations.Dtos;
-using PetFamily.Application.VolunteerOperations.Update.DetailsInfo;
-using PetFamily.Application.VolunteerOperations.Update.MainInfo;
-using PetFamily.Application.VolunteerOperations.Update.SocialNetworks;
-using PetFamily.API.Controllers.Requests;
-using PetFamily.Domain.Shared;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using PetFamily.Domain.ValueObjects;
 using System.Collections.Generic;
 using PetFamily.API.Controllers.Requests.Volunteers.Update;
 using PetFamily.API.Controllers.Requests.Volunteers.Create;
 using CSharpFunctionalExtensions;
-using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Add;
 using PetFamily.API.Processors;
-using PetFamily.Application.VolunteerOperations.PetOperations.PetFiles.Delete;
-using PetFamily.Application.VolunteerOperations.PetOperations.Add;
 using PetFamily.API.Controllers.Requests.Volunteers.Pet.Add;
 using PetFamily.API.Controllers.Requests.Volunteers.Pet.Move;
-using PetFamily.Application.VolunteerOperations.PetOperations.Move;
 using PetFamily.API.Controllers.Requests.Volunteers.Pet.DeleteFile;
+using PetFamily.Application.VolunteerOperations.Queries.GetVolunteersWithPagination;
+using PetFamily.API.Controllers.Requests.Volunteers;
+using PetFamily.Application.VolunteerOperations.Commands.Create;
+using PetFamily.Application.VolunteerOperations.Commands.Delete.HardDelete;
+using PetFamily.Application.VolunteerOperations.Commands.Delete.SoftDelete;
+using PetFamily.Application.VolunteerOperations.Commands.PetOperations.Add;
+using PetFamily.Application.VolunteerOperations.Commands.PetOperations.Move;
+using PetFamily.Application.VolunteerOperations.Commands.PetOperations.PetFiles.Add;
+using PetFamily.Application.VolunteerOperations.Commands.PetOperations.PetFiles.Delete;
+using PetFamily.Application.VolunteerOperations.Commands.Update.DetailsInfo;
+using PetFamily.Application.VolunteerOperations.Commands.Update.MainInfo;
+using PetFamily.Application.VolunteerOperations.Commands.Update.SocialNetworks;
+using PetFamily.Application.VolunteerOperations.Commands.Delete;
+using PetFamily.Application.VolunteerOperations.Queries.GetVolunteerById;
+using PetFamily.Application.VolunteerOperations.Queries.GetVolunteersWithPaginationDapper;
 
 namespace PetFamily.API.Controllers
 {
@@ -39,6 +38,47 @@ namespace PetFamily.API.Controllers
         {
             _handler = handler;
         }*/  //injection, неудобно когда куча методов(будет грузиться куча зависимостей)
+
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult> GetById(
+            [FromRoute] Guid id,
+            [FromServices] GetVolunteerByIdHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var query = new GetVolunteerByIdQuery(id);
+
+            var response = await handler.Handle(query, cancellationToken);
+            if (response.IsFailure)
+                return response.Error.ToResponse();
+
+            return Ok(response.Value);
+        }
+
+        [HttpGet("dapper")]
+        public async Task<ActionResult> GetDapper(
+            [FromQuery] GetVolunteersWithPaginationDapperRequest request,
+            [FromServices] GetVolunteersWithPaginationDapperHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var query = request.ToQuery();
+
+            var response = await handler.Handle(query, cancellationToken);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Get(
+            [FromQuery] GetVolunteersWithPaginationRequest request,
+            [FromServices] GetVolunteersWithPaginationHandler handler,
+            CancellationToken cancellationToken)
+        {
+            var query = request.ToQuery();
+
+            var response = await handler.Handle(query, cancellationToken);
+
+            return Ok(response);
+        }
 
         [HttpPost]
         public async Task<ActionResult> Create(
@@ -215,6 +255,6 @@ namespace PetFamily.API.Controllers
             var envelope = Envelope.Ok(result.Value);
 
             return Ok(envelope);
-        } 
+        }
     }
 }
