@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using PetFamily.Application.FileProvider;
+using PetFamily.Application.Files;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects;
 using System;

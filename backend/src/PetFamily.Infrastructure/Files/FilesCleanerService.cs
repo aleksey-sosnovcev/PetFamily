@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using PetFamily.Application.FileProvider;
 using PetFamily.Application.Files;
 using PetFamily.Application.Messaging;
 using PetFamily.Application.Providers;

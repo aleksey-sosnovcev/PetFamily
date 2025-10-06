@@ -1,5 +1,4 @@
-﻿using PetFamily.Application.VolunteerOperations.PetOperations;
-using PetFamily.Application.VolunteerOperations.PetOperations.Add;
+﻿using PetFamily.Application.VolunteerOperations.Commands.PetOperations.Add;
 using PetFamily.Domain.Enum;
 
 namespace PetFamily.API.Controllers.Requests.Volunteers.Pet.Add

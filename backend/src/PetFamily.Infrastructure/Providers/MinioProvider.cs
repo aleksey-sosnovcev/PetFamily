@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Minio;
 using Minio.AspNetCore;
 using Minio.DataModel.Args;
-using PetFamily.Application.FileProvider;
+using PetFamily.Application.Files;
 using PetFamily.Application.Providers;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.ValueObjects;
